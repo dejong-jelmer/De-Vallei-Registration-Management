@@ -1,0 +1,41 @@
+ @font-face {
+    font-family: montserrat;
+    src: url(../fonts/montserrat/Montserrat-Regular.ttf);
+}
+
+
+.alert {
+    margin: 3% 0%;
+}
+
+.nav-side {
+    padding: 0;
+    border-right:#343A40 solid 1px;
+}
+
+.nav-ul-side {
+    width: 100%;
+}
+
+.nav-side-btn {
+    text-align: left;
+    cursor: pointer;
+
+}
+
+.nav-side-btn > a {
+    line-height: 2em;
+    font-size: 1em;
+    color: #343A40;
+    font-family: montserrat;
+}
+
+
+.nav-side-btn:hover {
+    background: lightgrey;
+}
+
+nav {
+    padding: 0;
+    /*width: 100% !important;*/
+}

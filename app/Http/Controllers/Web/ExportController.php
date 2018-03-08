@@ -11,21 +11,21 @@ use App\Http\Controllers\Controller;
 
 class ExportController extends Controller
 {
-    public function exportStudents($type, $export)
+    public function exportStudents($type, Request $request)
     {
         
-        switch ($export) {
-            case 'leerlingen':
+        // switch ($export) {
+        //     case 'leerlingen':
                 
-                $data = Studentdata::get()->toArray();
-                break;
+        //         $data = Studentdata::get()->toArray();
+        //         break;
             
-            default:
-                $data = Attendance::get()->toArray();
-                break;
-        }
+        //     default:
+        //         $data = Attendance::get()->toArray();
+        //         break;
+        // }
 
-
+        dd($request->input('query') );
         return Excel::create($export, function($excel) use ($data) {
 
                 $excel->sheet('Blad 1', function($sheet) use ($data)

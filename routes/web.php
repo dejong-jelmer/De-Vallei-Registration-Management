@@ -17,16 +17,18 @@ Route::post('/login', 'Web\AuthController@login');
 
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('/export/leerlingen/{type}/{export}', 'Web\ExportController@exportStudents');
-    Route::post('/import/leerlingen', 'Web\ImportController@importExcel');
-
     Route::get('/logout', 'Web\AuthController@logout');
 
     Route::get('/home', 'Web\HomeController@getHome');
-    Route::post('/zoeken', 'Web\SearchController@searchStudents');
-    Route::post('/zoeken/{id}', 'Web\SearchController@searchStudent');
 
     Route::get('/status', 'Web\StatusController@getStatus');
+
+    Route::get('/leerlingen/gegevens', 'Web\LeerlingController@getUpdate');
+    Route::get('/leerlingen/aanmaken', 'Web\LeerlingController@getCreate');
+    Route::post('/leerlingen/aanmaken', 'Web\LeerlingController@createStudentData');
+    Route::post('/leerling/zoeken', 'Web\LeerlingController@searchStudent');
+    Route::post('/leerlingen/zoeken', 'Web\LeerlingController@searchStudents');
+    Route::post('/leerling/{id}/aanpassen', 'Web\LeerlingController@updateStudentData');
 
     Route::get('/aanwezigheid', 'Web\AanwezigheidsController@getIndex');
     Route::post('/aanwezigheid', 'Web\AanwezigheidsController@getStudentAanwezigheid');

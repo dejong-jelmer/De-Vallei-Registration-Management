@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-sm bg-light navbar-light nav-side">
-    <button class="navbar-toggler offset-10" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="nav flex-column nav-ul-side" style="width: 100%;">
-            <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="#">Leerlingen</a>
+        <ul class="nav flex-column nav-ul-side" style="width: 100%; height: 800px;">
+            <li class="nav-item nav-side-btn dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Leerlingen</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ URL::to('/leerlingen/gegevens') }}">Gegevens zoeken/bewerken</a>
+                    <a class="dropdown-item" href="{{ URL::to('/leerlingen/aanmaken') }}">Gegevens aanmaken</a>
+                </div>
             </li>
             <li class="nav-item nav-side-btn">
                 <a class="nav-link" href="#">Export</a>

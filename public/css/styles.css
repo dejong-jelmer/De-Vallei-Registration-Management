@@ -3,6 +3,18 @@
     src: url(../fonts/montserrat/Montserrat-Regular.ttf);
 }
 
+.message {
+    position: absolute;
+    height: auto; 
+    width: inherit;
+    z-index: 1000;
+    border: 2px solid black;
+} 
+
+.hidden {
+    /*display: none;*/
+    visibility: hidden;
+}
 
 .alert {
     margin: 3% 0%;

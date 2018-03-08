@@ -32,7 +32,7 @@ class StudentController extends controller
                 'coach_id' => $request->input('coach_id'),
                 'naam' => $request->input('naam'),
                 'status_id' => 1,
-                'color' => $request->inpu('color'),
+                'color' => $request->input('color'),
             ]);
             
             $studentData = studentData::create($request->all());

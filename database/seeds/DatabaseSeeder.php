@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             CoachesStudentStudentdataTableSeeder::class,
             StatusesTableSeeder::class,
             UsersTableSeeder::class,
+            ColorTableSeeder::class,
         ]);
     }
 }

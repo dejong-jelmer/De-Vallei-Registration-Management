@@ -30,16 +30,16 @@ class AuthController extends Controller
         }
 
         if(!$user) {
-            return redirect()->back()->with('error', 'Je bent niet ingelogd.');    
+            return redirect()->back()->with('error', 'Je bent niet ingelogd');    
         } 
 
-        return redirect('home')->with('success', 'Je bent ingelogd.');
+        return redirect('home')->with('success', 'Je bent ingelogd');
 
     }
 
     public function logout() 
     {
         Auth::logout();
-        return redirect('/')->with('info', 'Je bent uitgelogd.');
+        return redirect('/')->with('info', 'Je bent uitgelogd');
     }
 }

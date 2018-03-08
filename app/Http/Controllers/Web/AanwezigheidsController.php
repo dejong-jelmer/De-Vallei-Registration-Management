@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use DB;
+use Excel;
 use Carbon\Carbon;
 use App\Models\Status;
 use App\Models\Student;
@@ -24,12 +24,16 @@ class AanwezigheidsController extends Controller
 
     public function getStudentAanwezigheid(Request $request)
     {
+        
         $date = Carbon::now();
         $year = $date->year;
         
         $statuses = Status::get();
         $students = $request->input('students');
 
+        if(empty($students)) {
+            return redirect()->back()->with(['error' => ['Geen leerling(en) geselecteerd.']])->withInput($request->flash());
+        }
 
         if(is_array($students)) {
             for ($i = 0; $i < count($students); $i++) {
@@ -41,8 +45,7 @@ class AanwezigheidsController extends Controller
         
         $request->validate([
             'van_datum' => "nullable|required_with:tot_datum|required_without:maand,jaar|date|before_or_equal:$date",
-            // 'tot_datum' => "nullable|required_with:van_datum|required_without:maand,jaar|date|before_or_equal:$date",
-            'tot_datum' => "nullable|required_with:van_datum|required_without:maand,jaar|date|before_or_equal:2018-12-12",
+            'tot_datum' => "nullable|required_with:van_datum|required_without:maand,jaar|date|before_or_equal:$date",
             'maand' => 'nullable|required_with:jaar|integer|min:1|max:12',
             'jaar' => "nullable|required_with:maand|integer|min:2018|max:$year",
         ]);
@@ -57,7 +60,11 @@ class AanwezigheidsController extends Controller
 
             $requestedStatuses[] = $request->input($st);
         }
-       
+
+        if( count(array_filter($requestedStatuses)) == null ) {
+            return redirect()->back()->with(['error' => ['Geen status gekozen.']])->withInput($request->flash());
+        }
+
         $from = $request->input('van_datum');
         $to = $request->input('tot_datum');
 
@@ -67,31 +74,61 @@ class AanwezigheidsController extends Controller
 
         if($from && $to) {
 
-            $attendances = Attendance::whereIn('student_id', $students)
+            $attendances = Attendance::select('status_id', 'student_id', 'start_tijd', 'eind_tijd')
+                            ->with('student', 'status')->whereIn('student_id', $students)
                             ->whereIn('status_id', $requestedStatuses)
-                            ->whereBetween('created_at', [$from, $to])
+                            ->whereDate('start_tijd', '>=', $from)
+                            ->whereDate('start_tijd', '<=', $to)
+                            ->orderBy('student_id', 'asc')
                             ->get();
-        
         } else {
             
-            $attendances = Attendance::whereIn('student_id', $students)
+            $attendances = Attendance::select('status_id', 'student_id', 'start_tijd', 'eind_tijd')
+                            ->with('student', 'status')->whereIn('student_id', $students)
                             ->whereIn('status_id', $requestedStatuses)
-                            ->whereYear('created_at', $year)
-                            ->whereMonth('created_at', $month)
+                            ->whereYear('start_tijd', $year)
+                            ->whereMonth('start_tijd', $month)
+                            ->orderBy('student_id', 'asc')
                             ->get();
         
         }
-
-        $attendances->each(function($attendance, $key)  {
-            $attendance->student;
-            $attendance->status;
-        });   
         
+
+        if($request->input('export')) {
+            
+            $query = clone $attendances;
+
+            $query = $query->map(function($item) {
+                    $item->naam = $item->student->naam;
+                    $item->aanwezigheid = $item->status->status;
+                    $item->eind_tijd = $item->eind_tijd;    
+                    $item->start_tijd = $item->start_tijd;    
+
+                    unset($item->student);
+                    unset($item->status);
+                    unset($item->student_id);
+                    unset($item->status_id);
+                    
+
+                    return $item;
+            });
+
+
+            return Excel::create('aanwezigheid', function($excel) use ($query) {
+                        
+                    $excel->sheet('Blad 1', function($sheet) use ($query)
+                    {
+                            $sheet->fromArray($query);                  
+
+                    });    
+
+
+            })->export('xlsx');
+        }
+
         $students = Student::has('attendances')->get();
-
-        $statuses = Status::get();
-
-        return view('aanwezigheid.index')->with(['attendances' => $attendances, 'students'=> $students, 'statuses' => $statuses ]);
+        
+        return view('aanwezigheid.index')->with(['attendances' => $attendances, 'students'=> $students, 'statuses' => $statuses])->withInput($request->flash());
     }
 
     

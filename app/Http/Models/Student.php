@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Coach;
 use App\Models\Status;
 use App\Models\Reason;
+use App\Models\Color;
 use App\Models\Student;
 use App\Models\Attendance;
 use App\Models\Studentdata;
@@ -69,6 +70,10 @@ class Student extends Model
         return $this->belongsTo('App\Models\Reason', 'reason_id');
     }
 
+    public function color()
+    {
+        return $this->belongsTo('App\Http\Models\Color', 'color_id');
+    }
     
     // Model methods ----------------------------------------------------------
     

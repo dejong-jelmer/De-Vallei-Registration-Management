@@ -24,8 +24,8 @@ class LeerlingController extends Controller
 
     public function getCreate()
     {   
-        $colors = Color::get();
-        $coaches = Coach::get();
+        $colors = Color::where('deleted', false)->get();
+        $coaches = Coach::where('deleted', false)->get();
 
         $columns = Schema::getColumnListing('studentdatas');
         
@@ -65,8 +65,8 @@ class LeerlingController extends Controller
             return redirect()->back()->with(['error' => 'Leerling niet gevonden']);
         }
 
-        $colors = Color::get();
-        $coaches = Coach::get();
+        $colors = Color::where('deleted', false)->get();
+        $coaches = Coach::where('deleted', false)->get();
 
         $studentData = collect($student->studentData);
         $student->coach;
@@ -85,14 +85,20 @@ class LeerlingController extends Controller
             return redirect()->back()->with(['error' => 'Leerling niet gevonden']);
         }
 
-        $student->update(['coach_id' => $request->coach_id]);
+        $coach = Coach::findOrFail($request->input('coach_id'));
+        $color = Color::findOrFail($request->input('color_id'));
+
+        $student->coach()->associate($coach);
+        $student->color()->associate($color);
+        $student->naam = $request->input('voornaam');
         $student->studentData()->first()->update($request->all());
         $student->save();
 
         $studentData = collect($student->studentData);
-        $coaches = Coach::get();
+        $colors = Color::where('deleted', false)->get();
+        $coaches = Coach::where('deleted', false)->get();
 
-        return view('leerlingen.gegevens')->with(['success' => 'Leerling gegevens aangepast', 'student' => $student, 'studentData' => $studentData, 'coaches' => $coaches]);
+        return view('leerlingen.gegevens')->with(['success' => 'Leerling gegevens aangepast', 'student' => $student, 'studentData' => $studentData, 'coaches' => $coaches, 'colors' => $colors]);
     }
 
     public function createStudentData(Request $request)
@@ -103,14 +109,15 @@ class LeerlingController extends Controller
                 'coach_id' => $request->input('coach_id'),
                 'naam' => $request->input('voornaam'),
                 'status_id' => 1,
-                'color' => $request->input('color'),
             ]);
 
-            $request['student_id'] =  $student->id;
             
-            $studentData = studentData::create($request->all());
-            $studentData->student()->associate($student);            
-            $studentData->save();
+            $color = Color::findOrFail($request->input('color_id'));
+
+            $student->studentdata()->create($request->all());
+            $student->color()->associate($color);
+            $student->save();
+
 
         } catch (\Expetion $e) {
             
@@ -118,10 +125,11 @@ class LeerlingController extends Controller
             
         }
 
-        $coaches = Coach::get();
+        $colors = Color::where('deleted', false)->get();
+        $coaches = Coach::where('deleted', false)->get();
         $studentData = collect($student->studentData);
 
-        return view('leerlingen.gegevens')->with(['student' => $student, 'studentData' => $studentData, 'coaches' => $coaches , 'success' => 'Leerling gegevens aangemaakt']);
+        return view('leerlingen.gegevens')->with(['student' => $student, 'studentData' => $studentData, 'coaches' => $coaches , 'success' => 'Leerling gegevens aangemaakt', 'colors' => $colors]);
 
     }
 }

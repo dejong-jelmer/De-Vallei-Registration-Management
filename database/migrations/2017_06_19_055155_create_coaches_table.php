@@ -17,7 +17,7 @@ class CreateCoachesTable extends Migration
             $table->increments('id');
             $table->string('coach');
             $table->string('color')->nullable();
-            $table->boolean('deleted')->nullable();
+            $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

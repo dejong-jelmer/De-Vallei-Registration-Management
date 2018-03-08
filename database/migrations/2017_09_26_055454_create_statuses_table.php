@@ -20,7 +20,7 @@ class CreateStatusesTable extends Migration
             $table->string('color');
             $table->boolean('student_selectable');
             $table->boolean('reason_requierd');
-            $table->boolean('deleted')->nullable();
+            $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

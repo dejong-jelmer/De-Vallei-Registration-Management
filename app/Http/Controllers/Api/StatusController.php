@@ -40,7 +40,7 @@ class StatusController extends Controller
         } catch (\Expetion $e) {
             return response()->json([
                     'error'=> [
-                        'message' => 'Leerling niet gevonden'
+                        'message' => 'Status niet gevonden'
                     ]
 
                 ], 404);

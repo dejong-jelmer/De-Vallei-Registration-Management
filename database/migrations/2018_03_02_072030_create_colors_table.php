@@ -16,7 +16,7 @@ class CreateColorsTable extends Migration
         Schema::create('colors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('color');
-            $table->boolean('deleted')->nullable();
+            $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

@@ -76,10 +76,10 @@
                 </span>
                 &nbsp;
                 <span class="col-6 float-left">
-                    <select class="form-control form-control-sm" name="color">
+                    <select id="colorSelect" class="form-control form-control-sm" name="color_id" style="text-align: center; background: {{ $colors[$student->color_id-1]->color}}">
                         <option value="">-- selecteer kleur --</option>
                         @foreach($colors as $color)
-                            <option value="{{ $color->id }}" style="background-color:{{ $color->color }}">{{ $color->color }}</option>
+                            <option @if($student->color_id == $color->id) selected @endif value="{{ $color->id }}" style="background:{{ $color->color }}">&nbsp;</option>
                         @endforeach
                     </select>
                 </span>
@@ -113,6 +113,13 @@
         studentFormSubmit.classList.add('btn-danger');
 
     } );
+
+    var colorSelect = document.querySelector('#colorSelect');
+    
+    colorSelect.addEventListener('change', function() {
+        console.log(this.selectedOptions[0].style.background);
+        colorSelect.style.background = this.selectedOptions[0].style.background;
+    });
 </script>
 
 @endisset

@@ -19,6 +19,7 @@ Route::group(['prefix' => '/v1'], function(){
     Route::post('/login', 'Api\AuthController@login');
     // status
     Route::get('/statuses', 'Api\StatusController@getStatusen');
+    Route::get('/kleuren', 'Api\ColorController@getColors');
     
     // JWT Auth middleware protected
     Route::group(['middleware' => ['jwt-auth']], function(){

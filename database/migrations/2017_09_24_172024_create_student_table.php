@@ -17,10 +17,10 @@ class CreateStudentTable extends Migration
             $table->increments('id');
             $table->string('naam');
             $table->integer('coach_id');
-            $table->integer('status_id');
+            $table->integer('status_id')->default('1');
             $table->integer('reason_id')->nullable();
-            $table->string('color')->nullable();
-            $table->boolean('deleted')->nullable();
+            $table->integer('color_id')->nullable();
+            $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

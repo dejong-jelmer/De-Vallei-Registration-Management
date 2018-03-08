@@ -25,8 +25,8 @@
                 </span>
                 &nbsp;
                 <span class="col-6 float-left">
-                    <select class="form-control form-control-sm" name="coach_id">
-                        <option value="">-- selecteer coach --</option>
+                    <select class="form-control form-control-sm" name="coach_id" style="text-align: center;">
+                        <option value="">-- Selecteer coach --</option>
                         @foreach($coaches as $coach)
                             <option value="{{ $coach->id }}">{{ $coach->coach }}</option>
                         @endforeach
@@ -39,10 +39,10 @@
                 </span>
                 &nbsp;
                 <span class="col-6 float-left">
-                    <select class="form-control form-control-sm" name="color">
+                    <select id="colorSelect" class="form-control form-control-sm" name="color_id" style="text-align: center;">
                         <option value="">-- selecteer kleur --</option>
                         @foreach($colors as $color)
-                            <option value="{{ $color->id }}" style="background-color:{{ $color->color }}">{{ $color->color }}</option>
+                            <option value="{{ $color->id }}" style="background:{{ $color->color }}">&nbsp;</option>
                         @endforeach
                     </select>
                 </span>
@@ -68,14 +68,21 @@
 </div>
 <script>
     var studentForm = document.querySelector('#studentForm');
+    
     studentForm.addEventListener('change', function() {
         var studentFormSubmit = document.querySelector('#studentFormSubmit');
 
-        console.log(studentFormSubmit);
         studentFormSubmit.classList.remove('hidden');
-        // studentFormSubmit.classList.add('btn-danger');
 
     } );
+
+    var colorSelect = document.querySelector('#colorSelect');
+    
+    colorSelect.addEventListener('change', function() {
+        console.log(this.selectedOptions[0].style.background);
+        colorSelect.style.background = this.selectedOptions[0].style.background;
+    });
+
 </script>
 
 @endisset

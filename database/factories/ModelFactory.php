@@ -20,19 +20,6 @@ use App\Models\Studentdata;
 |
 */
 
-// $factory->define(User::class, function (Faker\Generator $faker) {
-//     return [
-//         'naam' => $faker->name,
-//     ];
-// });
-
-$factory->define(Coach::class, function (Faker\Generator $faker) {
-    
-    return [
-        'coach' => $faker->name,
-        'color' => $faker->name,
-    ];
-});
 
 $factory->define(Coachdata::class, function (Faker\Generator $faker) {
     
@@ -50,29 +37,17 @@ $factory->define(Coachdata::class, function (Faker\Generator $faker) {
 });
 
 
-
-
 $factory->define(Student::class, function (Faker\Generator $faker) {
     
     $namen = ['Kim', 'Peter', 'Jolien', 'Danielle', 'Felix', 'Daan', 'Daan', 'Levy', 'Selma', 'Danny', 'Noah', 'Shara', 'Jullia', 'Henk', 'Lucas', 'Fin', 'Emma', 'Tess', 'Sofie', 'Milan', 'Jesse', 'Liam', 'Mees', 'Noud', 'Adam', 'James', 'Max', 'Anna', 'Zoë', 'Fleur', 'Lauren', 'Yara', 'Marleen', 'Bram', 'Nora', 'Feline', 'Elise'];
     $naam = $namen[random_int(0,count($namen)-1)];
 
-    $kleuren = ['#FEDCD2', '#EB6E80','#E9B000', '#DE744C', '#BFD8D2', '#7D1935', '#565656', '#3CC37E', '#018E97', '#DC143C', '#E0FFFF', '#F0E68C', '#D8BFD8', '#FFE4B5'];
-    $kleur = $kleuren[random_int(0,count($kleuren)-1)];
-
     return [
         'naam' => $naam,
-        'status_id' => 1,
-        'color' => $kleur
     ];
 });
 
 
-// $factory->define(Status::class, function (Faker\Generator $faker) {
-//     return [
-//         'status' => str_random(5),
-//     ];
-// });
 
 $factory->define(Studentdata::class, function (Faker\Generator $faker) {
     return [

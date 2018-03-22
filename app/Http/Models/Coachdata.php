@@ -9,10 +9,12 @@ use App\Models\Status;
 use App\Models\Student;
 use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Coachdata extends Model
 {
+    use SoftDeletes;
     
     protected $fillable = [
         'voornaam',
@@ -27,6 +29,10 @@ class Coachdata extends Model
         'deleted'
 
     ];
+
+    protected $dates = ['deleted_at'];
+    
+
     // Relationships
     public function coach()
     {

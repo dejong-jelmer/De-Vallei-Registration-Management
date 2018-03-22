@@ -15,12 +15,15 @@
 
     <script type="text/javascript" src="{{ asset('js/fontawesome/fontawesome-all.js') }}"></script>
 
-
     {{-- pulling in jQeury 3.2.1 --}}
     <script type="text/javascript" src="{{ asset('js/jquery/jquery-3.2.1.js') }}"></script>
 
     {{-- pulling in Bootstrap 4 JS --}}
     <script type="text/javascript" src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
+
+    {{-- pulling in custom JS --}}
+    <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script>
+
     
 
 </head>
@@ -45,6 +48,6 @@
         </div>
     </div>
     {{-- pulling in Vue.JS 2.5.13 --}}
-    <script src="{{ asset('js/vue/vue.js') }}"></script>
+    {{-- <script src="{{ asset('js/vue/vue.js') }}"></script> --}}
 </body>
 </html>

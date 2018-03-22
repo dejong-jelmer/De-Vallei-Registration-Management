@@ -10,20 +10,25 @@ use App\Models\Reason;
 use App\Models\Student;
 use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Status extends Model
 {
+    use SoftDeletes;
     
     protected $fillable = [
         'status',
         'text',
         'color',
         'student_selectable',
+        'coach_selectable',
         'reason_requierd',
-        'deleted'
+        'deleted',
+        'deleted_by'
 
     ];
+
+    protected $dates = ['deleted_at'];
 
     // Relationships
     
@@ -35,6 +40,13 @@ class Status extends Model
         return $this->hasMany('App\Models\Student', 'status_id');
     }
 
+    /*
+     * get the coach that belongs to the status 
+     */
+    public function coaches()
+    {
+        return $this->hasMany('App\Models\Coach', 'status_id');
+    }
 
     public function reasons()
     {

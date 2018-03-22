@@ -2,13 +2,11 @@
 
 @section('content')
 
+
 @isset($columns)
-<div class="row">
-    <div class="col-12">
-        <h1>Leerlingen</h1>
-        <hr>
-    </div>
-</div>
+
+@include('templates.partials.coach')
+
 <div class="row">
     <div class="col-2 offset-10 float-left form-group">
         <button id="formSubmit" onclick="document.form.submit()" type="submit" class="btn btn-success hidden">Aanmaken</button>
@@ -17,22 +15,8 @@
 <div class="row">
 
     <div class="col-12">
-        <form id="form" name="form" class="" action="{{ URL::to('/leerlingen/aanmaken') }}" method="POST">
+        <form id="form" name="form" class="" action="{{ URL::to('/coaches/aanmaken') }}" method="POST">
         <div class="row">
-            <div class="col-6">
-                <span class="col-5 float-left">
-                    <label for="id" >Coachgroep:</label>
-                </span>
-                &nbsp;
-                <span class="col-6 float-left">
-                    <select class="form-control form-control-sm" name="coach_id" style="text-align: center;">
-                        <option value="">-- Selecteer coach --</option>
-                        @foreach($coaches as $coach)
-                            <option @if(old('coach_id') == $coach->id) selected @endif value="{{ $coach->id }}">{{ $coach->coach }}</option>
-                        @endforeach
-                    </select>
-                </span>
-            </div>
             <div class="col-6">
                 <span class="col-5 float-left">
                     <label for="id" >Kleur:</label>
@@ -48,7 +32,7 @@
                 </span>
             </div>
             @foreach($columns as $column)
-                @if(!(stripos($column, '_at') !== false) && !(strpos($column, 'delete') !== false) && $column != 'id' && $column != 'student_id' ) 
+                @if(!(stripos($column, '_at') !== false) && !(strpos($column, 'delete') !== false) && $column != 'id' && $column != 'coach_id' ) 
                 <div class="col-6">
                     <span class="col-5 float-left">
                         <label for="id" >{{ ucfirst(str_replace('_','&nbsp;', $column)) }}:</label>
@@ -68,6 +52,4 @@
 </div>
 
 @endisset
-
-
 @endsection

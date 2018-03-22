@@ -10,7 +10,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AanwezigheidsController extends Controller
+class AttendanceController extends Controller
 {
     public function getIndex()
     {
@@ -108,8 +108,8 @@ class AanwezigheidsController extends Controller
                     unset($item->status);
                     unset($item->student_id);
                     unset($item->status_id);
-                    
-
+                    $item->status = $item->aanwezigheid;
+                    unset($item->aanwezigheid);
                     return $item;
             });
 
@@ -118,7 +118,7 @@ class AanwezigheidsController extends Controller
                         
                     $excel->sheet('Blad 1', function($sheet) use ($query)
                     {
-                            $sheet->fromArray($query);                  
+                        $sheet->fromArray($query);                  
 
                     });    
 

@@ -9,10 +9,12 @@ use App\Models\Status;
 use App\Models\Student;
 use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Reason extends Model
 {
+    use SoftDeletes;
     
     protected $fillable = [
         'status_id',
@@ -21,6 +23,9 @@ class Reason extends Model
         'deleted'
 
     ];
+
+    protected $dates = ['deleted_at'];
+    
 
     // Relationships
     

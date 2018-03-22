@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Controllers\Traits\UpdateAttendance as UpdateAttendance; 
 
 /**
  * Class AttendanceController
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AttendanceController extends controller
 {
+    use UpdateAttendance;
     
     /**
      * Update de status van leerling (bijv. aanwezig/afwezig ect), log tijdstip. Optineel reden voor status 
@@ -32,62 +34,26 @@ class AttendanceController extends controller
      */
     public function updateStudentAttendance($studentId, $statusId, Request $request)
     {
-        
         $reason = false;
-        // als reden tekst gegeven is
-        $reasonText = $request->input('reden') ?  : $reasonText = false;
+        
+        $student = $this->updateAttendance($studentId, $statusId, $request);
+        
+        if(false === $student) {
+
+            return response()->json([
+                    'error' => [
+                        'message' => 'Leerling niet gevonden of status on bekend.'
+                    ]
+                ], 404);
+        }
+
+        if($student->reason) {
+            $reason = $student->reason->reason;
+        }
+
         
 
-        try {
-            
-            $student = Student::findOrFail($studentId);
-            
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'error' => [
-                    'message' => 'Leerling niet gevonden.'
-                ]
-            ], 404);
-        }
-        
-        try {
-
-            $status = Status::findOrFail($statusId);
-
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'error' => [
-                    'message' => 'Status niet bekend.'
-                ]
-            ], 404);
-        }
-       
-        // als leerling niet al die status heeft
-        if ($student->status_id !== $statusId) {
-            // als er een reden tekst is maak reden aan
-            if (false !== $reasonText) {
-                $reason = new Reason(['reason' => $reasonText, 'student_id' => $student->id, 'status_id' => $status->id]);
-            }
-            
-            // als er een reden aangemaakt is associeer met leerling en status, anders dissocieer vorig reden van leerling
-            if($reason) {
-                $reason->student()->associate($student);
-                $reason->status()->associate($status);
-                $reason->save();
-
-                $student->reason()->associate($reason);
-                $student->save();
-            } else {
-                $student->reason()->dissociate();
-            }
-
-            // hier wordt de aanwzigheid gelogt met start tijd en eind tijd
-            $student->setAttendance($status, $reason);
-            $student->status()->associate($status);
-            $student->save();
-        }
-
-        return response()->json(['id' => $student->id, 'status' => $student->status->status, 'color' => $student->status->color, 'reden' => ($reason ? $student->reason->reason : null) ], 201);      
+        return response()->json(['id' => $student->id, 'status' => $student->status->status, 'color' => $student->status->color, 'reden' => ($reason ? $reason : null) ], 201);      
         
         
     }

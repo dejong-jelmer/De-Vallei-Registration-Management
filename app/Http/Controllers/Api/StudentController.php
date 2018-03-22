@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use App\Models\User;
 use App\Models\Coach;
 use App\Models\Reason;
 use App\Models\Student;
+use App\Http\Models\Color;
 use App\Models\Studentdata;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,15 +31,17 @@ class StudentController extends controller
         try {
             
             $student = Student::create([
-                'coach_id' => $request->input('coach_id'),
-                'naam' => $request->input('naam'),
-                'status_id' => 1,
-                'color' => $request->input('color'),
+                'naam' => $request->input('voornaam'),
             ]);
-            
-            $studentData = studentData::create($request->all());
-            $studentData->student()->associate($student);            
-            $studentData->save();
+
+            $coach = Coach::findOrFail($request->input('coach_id'));
+            $color = Color::findOrFail($request->input('color_id'));
+
+            $student->studentdata()->create($request->all());
+            $student->coach()->associate($coach);
+            $student->color()->associate($color);
+            $student->save();
+
 
         } catch (\Expetion $e) {
             return response()->json(['created' => false,
@@ -101,8 +105,14 @@ class StudentController extends controller
                 ], 404);
         }
 
+        $student->studentData->deleted = true;
+        $student->studentData->deleted_by = Auth::user()->id;
         $student->studentData()->delete();
+        $student->studentData->save();
+        $student->deleted = true;
+        $student->deleted_by = Auth::user()->id;
         $student->delete();
+        $student->save();
         
         return response()->json(['leerling' => 'verwijderd'], 200);
 

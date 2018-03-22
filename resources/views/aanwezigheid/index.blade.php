@@ -25,15 +25,13 @@
                         </div>
                         <div class="col-3 offset-1 float-left">
                             <label><h5>Status:</h5></label>
-                            <div id="statuses">
-                                @foreach($statuses as $status)
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="{{ $status->status }}">
-                                           <input name="{{ str_replace(' ', '_', $status->status) }}" class="form-check-input" type="checkbox" value="{{ $status->id }}" {{ $status->id == old(str_replace(' ', '_', $status->status)) ? 'checked' : '' }}> {{ $status->status }}
-                                       </label>
-                                    </div>
-                                @endforeach
-                            </div>
+                            @foreach($statuses as $status)
+                                <div class="form-check">
+                                    <label class="form-check-label" for="{{ $status->status }}">
+                                       <input name="{{ str_replace(' ', '_', $status->status) }}" class="form-check-input form-checkbox" type="checkbox" value="{{ $status->id }}" {{ $status->id == old(str_replace(' ', '_', $status->status)) ? 'checked' : '' }}> {{ $status->status }}
+                                   </label>
+                                </div>
+                            @endforeach
                         </div>
                         <div class="col-4 float-left">
                             <div class="form-group">
@@ -83,8 +81,8 @@
                 </div>
                 <div class="col-3 offset-1 float-left">
                     <div class="form-check">
-                       <label class="form-check-label" for="allStatuses">
-                           <input id="allStatuses" name="allStatuses" class="form-check-input" type="checkbox" @if(old('allStatuses')) checked @endif> Selecteer alle statusen
+                       <label class="form-check-label" for="selectCheckboxes">
+                           <input id="selectCheckboxes" name="selectCheckboxes" class="form-check-input" type="checkbox" @if(old('selectCheckboxes')) checked @endif> Selecteer alle statusen
                        </label>
                     </div>
                 </div>
@@ -135,54 +133,4 @@
     @endif
     @endisset
 
-
-    <script>
-        var selectAllStudents = document.querySelector('#allStudents');
-        var selectAllStatuses = document.querySelector('#allStatuses');
-        var students = document.querySelector('#studentSelect').options;
-
-        selectAllStudents.addEventListener('click', function(){
-            if(this.checked) {
-                for(var i = 0; i < students.length; i++) {
-                    students[i].selected = true;
-                }
-            } else {
-                for(var i = 0; i < students.length; i++) {
-                    students[i].selected = false;
-                }
-            }
-        });
-
-        var allStatusesDivs = document.querySelector('#statuses').children;
-
-        selectAllStatuses.addEventListener('click', function(){
-            if(this.checked) {
-                for(var a = 0; a < allStatusesDivs.length; a++) {
-                    var allStatusesLabels = allStatusesDivs[a].children;
-
-                    for(var b = 0; b < allStatusesLabels.length; b++) {
-                        var allStatusesInput = allStatusesLabels[b].children;
-                        
-                        for(var c = 0; c < allStatusesLabels.length; c++) {
-                            allStatusesInput[c].checked = true;
-                        }
-                    } 
-                }
-            } else {
-                for(var a = 0; a < allStatusesDivs.length; a++) {
-                    var allStatusesLabels = allStatusesDivs[a].children;
-
-                    for(var b = 0; b < allStatusesLabels.length; b++) {
-                        var allStatusesInput = allStatusesLabels[b].children;
-                        
-                        for(var c = 0; c < allStatusesLabels.length; c++) {
-                            allStatusesInput[c].checked = false;
-                        }
-                    } 
-                }
-            }
-
-        });
-
-    </script>
 @endsection

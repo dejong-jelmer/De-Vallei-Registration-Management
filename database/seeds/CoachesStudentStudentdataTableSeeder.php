@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\Coach;
+use App\Http\Models\Color;
 use Illuminate\Database\Seeder;
 
 class CoachesStudentStudentdataTableSeeder extends Seeder
@@ -11,77 +12,52 @@ class CoachesStudentStudentdataTableSeeder extends Seeder
      *
      * @return void
      */
-    // public function run()
-    // {
-        
-    //     factory(App\Models\Coach::class, 10)
-    //     ->create()
-    //     ->each(
-    //         function ($coach) {
-            
-    //             $coach->coachData()->save(factory(App\Models\Coachdata::class)->make());
-
-    //             $coach->students()->saveMany(factory(App\Models\Student::class, 10)->make())
-    //                 ->each(
-    //                     function ($student) {
-    //                         $student->studentdata()->save(factory(App\Models\Studentdata::class)->make());    
-    //                 }); 
-    //     });
-        
-    // }
-
+    
     public function run()
     {
+        
+
         $coaches = [
-            'Hans' => [
-                'color' => '#BFD8D2'
-            ],
-            'Maria' => [
-                'color' => '#FEDCD2'
-            ],
-            'Michel' => [
-                'color' => '#E9B000'
-            ],
-            'Judith' => [
-                'color' => '#EB6E80'
-            ],
-            'Freek' => [
-                'color' => '#7D1935'
-            ],
-            'Johan' => [
-                'color' => '#3CC37E'
-            ],
-            'Chantal' => [
-                'color' => '#018E97'
-            ],
-            'Antoinette' => [
-                'color' => '#565656'
-            ],
-            'Jaap' => [
-                'color' => '#DE744C'
-            ]
+            'Hans' ,
+            'Maria' ,
+            'Michel' ,
+            'Judith' ,
+            'Freek' ,
+            'Johan' ,
+            'Chantal' ,
+            'Antoinette' ,
+            'Jaap' 
 
         ];
 
-        foreach ($coaches as $key => $value) {
+        foreach ($coaches as $coach) {
             DB::Table('coaches')->insert([
-                'coach' => $key,
-                'color' => $value['color'],
-                'deleted' => 0,
+                'coach' => $coach,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
         }
 
+        $colors = App\Http\Models\Color::get();
         $coaches = Coach::get();
 
         foreach ($coaches as $coach) {
+            $random = random_int(0, count($colors)-1);
+            $color = $colors[$random];
+            
             $coach->coachData()->save(factory(App\Models\Coachdata::class)->make());
+
+            $coach->color()->associate($color);
+            $coach->save();
 
             $coach->students()->saveMany(factory(App\Models\Student::class, 10)->make())
                     ->each(
-                        function ($student) {
-                            $student->studentdata()->save(factory(App\Models\Studentdata::class)->make());    
+                        function ($student) use ($colors) {
+                            $random = random_int(0, count($colors)-1);
+                            $color = $colors[$random];
+                            $student->studentdata()->save(factory(App\Models\Studentdata::class)->make());
+                            $student->color()->associate($color);
+                            $student->save();
                     }); 
         }
     }

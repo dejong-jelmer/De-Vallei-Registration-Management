@@ -60,9 +60,9 @@ class CoachController
     {
         try {
             
-            $coach = Coach::create( $request->all() );
+            $coach = Coach::create($request->all());
             
-            $coachData = coachData::create( $request->all() );
+            $coachData = coachData::create($request->all());
 
             $coachData->coach()->associate($coach);            
             $coachData->save();

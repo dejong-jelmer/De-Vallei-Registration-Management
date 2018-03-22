@@ -7,27 +7,27 @@
         <h1>Leerlingen</h1>
         <hr>
         @isset($studentDatas)
-        @if(!isset($studentDatas) && !count($studentDatas))
-            <p>Niets gevonden.</p>
+        @if(!$studentDatas->count())
+            <p>Geen leerlingen gevonden.</p>
         @endif
         @endisset
     </div>
 </div>
-@isset($students)
-@if($students->count())
+@isset($studentDatas)
+@if($studentDatas->count())
 <div class="row">
     <div class="col-12">    
-        <form name="form" class="form-inline" action="{{ URL::to('/leerling/zoeken') }}" method="POST">
+        <form name="form" class="form-inline" action="{{ URL::to('/leerling') }}" method="GET">
             <div class="form-group">
                 <label class="form-inline" for="students">Leerlingen:</label>
                 &nbsp;
-                <select class="form-control float-left" name="students">
+                <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value);"class="form-control float-left" name="students">
                     <option value="">-- Leerlingen --</option>
-                    @foreach($students as $student)
-                        <option value="{{ $student->student_id }}">
-                            {{ $student->voornaam }} {{ $student->tussenvoegsel }} {{ $student->achternaam }}
+                    @foreach($studentDatas as $studentData)
+                        <option value="{{ $studentData->student->id }}">
+                            {{ $studentData->voornaam }} {{ $studentData->tussenvoegsel }} {{ $studentData->achternaam }}
                         </option>
-                        @php {{unset($student);}} @endphp
+                        @php {{unset($studentData);}} @endphp
                     @endforeach
                 </select>
                 &nbsp;
@@ -44,22 +44,34 @@
 @isset($studentData) 
 
 <div class="row">
-    <div class="col-10 float-left">   
+    <div class="col-8 float-left">   
         <h5>Gegevens van: {{ $studentData['voornaam'] }} {{ $studentData['tussenvoegsel'] }} {{ $studentData['achternaam'] }}</h5>
     </div>
     <div class="col-2 float-left">
-        <button id="studentFormSubmit" onclick="document.studentForm.submit()" type="submit" class="btn btn-light disabled" >Aanpassen</button>
+        <button id="formSubmit" onclick="document.form.submit()" type="submit" class="btn btn-block btn-info hidden" >Doorvoeren</button>
     </div>
+    <div class="col-2 float-left">
+        <div class="form-check">
+            <label class="form-check-label" for="deleteCheck">
+               <input id="deleteCheck" name="deleteCheck" class="form-check-input" type="checkbox">
+                Verwijderen? 
+           </label>
+        </div>
+        <button id="deleteBtn" type="submit" hidden class="btn btn-block btn-danger" >Verwijderen</button>
+    </div>
+    <form name="deleteForm" action="{{ URL::to("leerling/$student->id/verwijderen") }}" method="POST">
+        {{ csrf_field() }}
+    </form>
 </div>
 <br>
 <div class="row">
     <div class="col-12">
-        <form id="studentForm" name="studentForm" class="" action="{{ URL::to('/leerling/'.$studentData['student_id']. '/aanpassen') }}" method="POST">
+        <form id="form" name="form" class="" action="{{ URL::to("/leerling/$student->id/aanpassen") }}" method="POST">
             <br>
             <div class="row">
                 <div class="col-6">
                     <span class="col-5 float-left">
-                        <label for="id" >Coachgroep:</label>
+                        <label for="id">Coachgroep:</label>
                     </span>
                     &nbsp;
                     <span class="col-6 float-left">
@@ -76,8 +88,8 @@
                 </span>
                 &nbsp;
                 <span class="col-6 float-left">
-                    <select id="colorSelect" class="form-control form-control-sm" name="color_id" style="text-align: center; background: {{ $colors[$student->color_id-1]->color}}">
-                        <option value="">-- selecteer kleur --</option>
+                    <select class="form-control form-control-sm colorSelect" name="color_id" style="text-align: center; background: {{ $colors[$student->color_id-1]->color}}">
+                        <option value=""></option>
                         @foreach($colors as $color)
                             <option @if($student->color_id == $color->id) selected @endif value="{{ $color->id }}" style="background:{{ $color->color }}">&nbsp;</option>
                         @endforeach
@@ -85,7 +97,7 @@
                 </span>
             </div>
                 @foreach($studentData as $name => $data)
-                    @if(!(stripos($name, '_at') !== false) && !(strpos($name, 'delete') !== false)) 
+                    @if(!(stripos($name, '_at') !== false) && !(stripos($name, 'delete') !== false)) 
                     <div class="col-6">
                         <span class="col-5 float-left">
                             <label for="id" >{{ ucfirst(str_replace('_','&nbsp;', $name)) }}:</label>
@@ -102,25 +114,7 @@
         </form>
     </div>
 </div>
-<script>
-    var studentForm = document.querySelector('#studentForm');
-    studentForm.addEventListener('change', function() {
-        var studentFormSubmit = document.querySelector('#studentFormSubmit');
 
-        console.log(studentFormSubmit);
-        studentFormSubmit.classList.remove('btn-light');
-        studentFormSubmit.classList.remove('disabled');
-        studentFormSubmit.classList.add('btn-danger');
-
-    } );
-
-    var colorSelect = document.querySelector('#colorSelect');
-    
-    colorSelect.addEventListener('change', function() {
-        console.log(this.selectedOptions[0].style.background);
-        colorSelect.style.background = this.selectedOptions[0].style.background;
-    });
-</script>
 
 @endisset
 @endisset

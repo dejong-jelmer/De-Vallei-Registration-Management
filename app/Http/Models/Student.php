@@ -12,10 +12,12 @@ use App\Models\Student;
 use App\Models\Attendance;
 use App\Models\Studentdata;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Student extends Model
 {
+    use SoftDeletes;
     
     protected $fillable = [
         'naam',
@@ -26,7 +28,12 @@ class Student extends Model
         'deleted_at',
         'created_at',
         'updated_at',
+        'deleted_by',
+
     ];
+
+    protected $dates = ['deleted_at'];
+    
     // Relationships
     /**
      * Get the studentdata record belongs to a student.

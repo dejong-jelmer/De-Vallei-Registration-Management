@@ -16,7 +16,8 @@ class CreateCoachesTable extends Migration
         Schema::create('coaches', function (Blueprint $table) {
             $table->increments('id');
             $table->string('coach');
-            $table->string('color')->nullable();
+            $table->integer('status_id')->default('1');
+            $table->string('color_id')->nullable();
             $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();

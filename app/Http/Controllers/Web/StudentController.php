@@ -110,7 +110,12 @@ class StudentController extends Controller
 
     public function createStudent(Request $request)
     {
-
+         $request->validate([
+            'voornaam' => 'required',
+            'coach_id' => 'required|exists:coaches,id',
+            'color_id' => 'required|exists:colors,id',
+         ]);
+            
         try {
             
             $student = Student::create([
@@ -143,7 +148,7 @@ class StudentController extends Controller
             $student = Student::findOrFail($id);
 
         } catch (ModelNotFoundException $e) {
-            return redirect()->back()->with(['error' => 'Leerling niet gevonden']);
+            return back()->with(['error' => 'Leerling niet gevonden']);
         }
         
         $name = $student->naam;
@@ -194,7 +199,7 @@ class StudentController extends Controller
 
             if(false === $student) {
 
-                return redirect()->back()->with(['error' => 'Leerling niet gevonden of status on bekend.']);
+                return back()->with(['error' => 'Leerling niet gevonden of status on bekend.']);
             }
         
         }

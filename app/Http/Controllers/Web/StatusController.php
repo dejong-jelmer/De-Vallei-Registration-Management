@@ -8,12 +8,15 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
+use App\Http\Controllers\Traits\UpdateAttendance as UpdateAttendance; 
 
 class StatusController extends Controller
 {
+    use UpdateAttendance;
+
     public function getStatus()
     {
-        $statuses = Status::get();
+        $statuses = Status::whereNotIn('status',['afwezig', 'aanwezig'])->get();
 
 
         return view('status.status')->with(['statuses' => $statuses]);
@@ -22,7 +25,6 @@ class StatusController extends Controller
     public function updateStatus($id, Request $request)
     {
         $request->validate([
-            'color' => 'exists:statuses,color',
             'delete' => 'boolean',
         ]);
 
@@ -37,16 +39,28 @@ class StatusController extends Controller
         }
 
         if($request->input('delete')) {
+            
+            $afwezig = Status::where('status', 'afwezig')->first();
+
+            $request['reden'] = 'vorige status verwijderd';
+            foreach($status->students as $student) {
+                $this->updateAttendance($student->id, $afwezig->id, $request);
+            }
+
+            foreach ($status->coaches as $coach) {
+                $coach->status()->associate($afwezig);
+                $coach->save();
+            }
 
             $status->update(['deleted' => true, 'deleted_by' => Auth::user()->id]);
             $status->save();
-            $status->delete();
+            $status->delete($afwezig);
 
             return back()->with(['success' => 'Status verwijderd']);
 
         }
 
-        $text = $request->input('text') ? $request->input('text') : $status->status;
+        $text = $request->input('text') ? $request->input('text') : strtolower($status->status);
 
         $status->update([
             'student_selectable' => $request->input('student_selectable') === 'on' ? $request['student_selectable'] = true : $request['student_selectable'] = false,
@@ -56,7 +70,6 @@ class StatusController extends Controller
             'reason_requierd' => $request->input('reason_requierd') === 'on' ? $request['reason_requierd'] = true : $request['reason_requierd'] = false,
 
             'text' => $text,
-            'color' => $request->input('color')
         ]);
 
         return back()->with(['success' => 'Status aangepast']);
@@ -74,7 +87,7 @@ class StatusController extends Controller
 
                 'reason_requierd' => $request->input('reason_requierd') === 'on' ? $request['reason_requierd'] = true : $request['reason_requierd'] = false,
 
-                'text' => $request->input('text'),
+                'text' => $request->input('text') ?  : $request->input('status'),
                 'color' => $request->input('color')
 
 

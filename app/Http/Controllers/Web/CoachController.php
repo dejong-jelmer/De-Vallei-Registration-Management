@@ -61,6 +61,11 @@ class CoachController extends Controller
     public function createCoach(Request $request)
     {
         
+        $request->validate([
+            'voornaam' => 'required',
+            'color_id' => 'required|exists:colors,id',
+         ]);
+
         try {
             
             $coach = Coach::create([

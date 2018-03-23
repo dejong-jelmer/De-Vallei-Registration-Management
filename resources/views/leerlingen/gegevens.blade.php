@@ -17,12 +17,17 @@
 @if($studentDatas->count())
 <div class="row">
     <div class="col-12">    
-        <form name="form" class="form-inline" action="{{ URL::to('/leerling') }}" method="GET">
-            <div class="form-group">
-                <label class="form-inline" for="students">Leerlingen:</label>
-                &nbsp;
+        <div class="col-2 float-left">
+            <h6><p>Leerlingen:</p></h6>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">    
+        <form id="form" name="form" action="{{ URL::to('/leerling') }}" method="GET">           
+            <div class="col-6 float-left">
                 <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value);"class="form-control float-left" name="students">
-                    <option value="">-- Leerlingen --</option>
+                    <option value=""> Selecteer een leerling </option>
                     @foreach($studentDatas as $studentData)
                         <option value="{{ $studentData->student->id }}">
                             {{ $studentData->voornaam }} {{ $studentData->tussenvoegsel }} {{ $studentData->achternaam }}
@@ -30,8 +35,9 @@
                         @php {{unset($studentData);}} @endphp
                     @endforeach
                 </select>
-                &nbsp;
-                <button type="submit" class="btn btn-info float-left">Selecteren</button>
+            </div>
+            <div class="col-2 float-left">
+                <button id="formSubmit" onclick="this.form.submit()" class="btn btn-outline-success text-center hidden"><i class="far fa-check-circle"></i></button>
             </div>
             {{ csrf_field() }}
         </form>
@@ -44,24 +50,14 @@
 @isset($studentData) 
 
 <div class="row">
-    <div class="col-8 float-left">   
-        <h5>Gegevens van: {{ $studentData['voornaam'] }} {{ $studentData['tussenvoegsel'] }} {{ $studentData['achternaam'] }}</h5>
-    </div>
-    <div class="col-2 float-left">
-        <button id="formSubmit" onclick="document.form.submit()" type="submit" class="btn btn-block btn-info hidden" >Doorvoeren</button>
-    </div>
-    <div class="col-2 float-left">
-        <div class="form-check">
-            <label class="form-check-label" for="deleteCheck">
-               <input id="deleteCheck" name="deleteCheck" class="form-check-input" type="checkbox">
-                Verwijderen? 
-           </label>
+    <div class="col-12">
+        <div class="col-8 float-left">   
+            <h5>Gegevens van: {{ $studentData['voornaam'] }} {{ $studentData['tussenvoegsel'] }} {{ $studentData['achternaam'] }}</h5>
         </div>
-        <button id="deleteBtn" type="submit" hidden class="btn btn-block btn-danger" >Verwijderen</button>
+        <div id="formSubmit" class="col-2 float-left hidden">
+            <button onclick="document.form.submit()" class="btn btn-outline-success btn-block text-center"><i class="far fa-check-circle"></i></button>
+        </div>
     </div>
-    <form name="deleteForm" action="{{ URL::to("leerling/$student->id/verwijderen") }}" method="POST">
-        {{ csrf_field() }}
-    </form>
 </div>
 <br>
 <div class="row">
@@ -76,8 +72,9 @@
                     &nbsp;
                     <span class="col-6 float-left">
                         <select class="form-control form-control-sm" name="coach_id">
+                            @if(null == $student->coach) <option selected> Geen coachgroep </option>>@endif
                             @foreach($coaches as $coach)
-                                <option @if($coach->id == $student->coach->id) selected @endif value="{{ $coach->id }}">{{ $coach->coach }}</option>
+                                <option @isset($student->coach) @if($coach->id == $student->coach->id) selected @endif @endisset value="{{ $coach->id }}">{{ $coach->coach }}</option>
                             @endforeach
                         </select>
                     </span>
@@ -112,6 +109,24 @@
             </div>
             {{ csrf_field() }}
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="col-2 offset-10 float-left">
+            <br>
+            <br>
+            <div class="form-check">
+                <label class="form-check-label" for="deleteCheck">
+                   <input id="deleteCheck" name="deleteCheck" class="form-check-input" type="checkbox">
+                    Verwijderen? 
+               </label>
+            </div>
+            <form name="deleteForm" action="{{ URL::to("leerling/$student->id/verwijderen") }}" method="POST">
+                <button id="deleteBtn" onclick="deleteConfirm(event, 'de gegevens van {{ $student->naam }}');" hidden class="btn btn-block btn-outline-danger text-center" ><i class="far fa-times-circle"></i></button>
+                {{ csrf_field() }}
+            </form>
+        </div>
     </div>
 </div>
 

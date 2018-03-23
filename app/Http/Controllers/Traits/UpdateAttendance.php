@@ -54,7 +54,7 @@ trait UpdateAttendance {
                 $student->reason()->dissociate();
             }
 
-            // hier wordt de aanwzigheid gelogt met start tijd en eind tijd
+            // hier wordt de aanwezigheid gelogt met start tijd en eind tijd
             $student->setAttendance($status, $reason);
             $student->status()->associate($status);
             $student->save();

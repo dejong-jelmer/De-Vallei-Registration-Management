@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/leerlingen/gegevens', 'Web\StudentController@getUpdate');
     Route::get('/leerlingen/aanmaken', 'Web\StudentController@getCreate');
     Route::get('/leerling/{id}', 'Web\StudentController@getStudent');
+    Route::get('/leerling/', function(){ return back(); });
+
 
     Route::post('/leerlingen/zoeken', 'Web\StudentController@searchStudents');
     Route::post('/leerlingen/aanmaken', 'Web\StudentController@createStudent');
@@ -44,6 +46,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/coaches/gegevens', 'Web\CoachController@getUpdate');
     Route::get('/coaches/aanmaken', 'Web\CoachController@getCreate');
     Route::get('/coach/{id}', 'Web\CoachController@getCoach');
+    Route::get('/coach/', function(){ return back(); });
+    
     
     Route::post('/coaches/aanmaken', 'Web\CoachController@createCoach');
     Route::post('/coach/{id}/aanpassen', 'Web\CoachController@updateCoach');

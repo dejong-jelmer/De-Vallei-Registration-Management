@@ -8,8 +8,12 @@
 @include('templates.partials.coach')
 
 <div class="row">
-    <div class="col-2 offset-10 float-left form-group">
-        <button id="formSubmit" onclick="document.form.submit()" type="submit" class="btn btn-success hidden">Aanmaken</button>
+    <div class="col-12">
+        <div id="formSubmit" class="col-2 offset-10 float-left hidden">
+            <button id="formSubmit" onclick="document.form.submit()" class="btn btn-outline-success btn-block text-center"><i class="far fa-check-circle"></i></button>
+        </div>
+        <br>
+        <br>
     </div>
 </div>
 <div class="row">

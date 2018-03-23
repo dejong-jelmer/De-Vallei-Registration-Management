@@ -17,7 +17,7 @@ class CreateStatusesTable extends Migration
             $table->increments('id');
             $table->string('status');
             $table->string('text');
-            $table->string('color');
+            $table->string('color')->default('#FFFFFF');
             $table->boolean('student_selectable');
             $table->boolean('coach_selectable');
             $table->boolean('reason_requierd');

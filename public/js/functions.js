@@ -9,12 +9,26 @@ document.addEventListener('DOMContentLoaded', function (event){
         var form = document.querySelector('#form');
         
         form.addEventListener('change', function(){
-            var form = document.querySelector('#formSubmit');
+            var formSubmit = document.querySelector('#formSubmit');
 
             formSubmit.classList.remove('hidden');
 
         } );
         
+    }
+
+    // if 'verwijder' checkbox is checked make delete button visable
+    if(document.querySelector('#deleteCheck') && document.querySelector('#deleteBtn')) {
+        var deleteBtn = document.querySelector('#deleteBtn');
+        var deleteCheck = document.querySelector('#deleteCheck');
+        deleteCheck.addEventListener('click', function(){
+            if(this.checked) {
+                deleteBtn.removeAttribute('hidden');
+                this.parentNode.setAttribute('hidden', 'true');
+                this.checked = false;
+            }
+        });
+
     }
 
     // set the selected color as background color of the select
@@ -49,30 +63,6 @@ document.addEventListener('DOMContentLoaded', function (event){
         });
     }
 
-    // if 'verwijder' checkbox is checked make delete button visable
-    if(document.querySelector('#deleteCheck') && document.querySelector('#deleteBtn')) {
-        var deleteCheck = document.querySelector('#deleteCheck');
-        var deleteBtn = document.querySelector('#deleteBtn');
-        deleteCheck.addEventListener('click', function(){
-            if(this.checked) {
-                deleteBtn.removeAttribute('hidden');
-                this.parentNode.setAttribute('hidden', 'true');
-                this.checked = false;
-            }
-        });
-
-        // safety confirm before student details are softdeleted
-        deleteBtn.addEventListener('click', function(){
-            if(confirm('Weet je zeker dat je deze leerling/coach en alle gegevens wilt verwijderen?')) {
-                document.deleteForm.submit(); 
-
-            } else {
-                deleteBtn.setAttribute('hidden', 'true');
-                deleteCheck.parentNode.removeAttribute('hidden');
-
-            }
-        });
-    }
 
     // check all selectboxes with classname 'form-checkbox'
     if(document.querySelector('#selectCheckboxes')) {
@@ -106,10 +96,14 @@ document.addEventListener('DOMContentLoaded', function (event){
         }
     }
 
-
-
-
 });
+
+function deleteConfirm(e,toBeDeleted)
+{
+    if(!confirm('Weet je zeker dat je ' + toBeDeleted + ' wilt verwijderen?')) {   
+        e.preventDefault();
+    }
+} 
 
 function setIds(e)
 {
@@ -184,7 +178,7 @@ function addClassToElementByClassName(obj) {
 
 // remove a class from elements selected by their classname
 // excepts object with class:'old classname' and classname: [array of classnames as query selector]
-function removeClassToElementByClassName(obj) {
+function removeClassFromElementByClassName(obj) {
 
     var oldClass = obj.class;
     for(var index = 0; index < obj.classnames.length; index++) {

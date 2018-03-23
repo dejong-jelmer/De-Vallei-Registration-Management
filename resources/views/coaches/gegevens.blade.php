@@ -17,12 +17,17 @@
 @if($coachDatas->count())
 <div class="row">
     <div class="col-12">    
-        <form name="form" class="form-inline" action="{{ URL::to('/coach') }}" method="GET">
-            <div class="form-group">
-                <label class="form-inline" for="coaches">Coaches:</label>
-                &nbsp;
-                <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value);" class="form-control float-left" name="coaches">
-                    <option value="">-- Coaches --</option>
+        <div class="col-2 float-left">
+            <h6><p>Coaches:</p></h6>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">    
+        <form id="form" name="form" action="{{ URL::to('/coach') }}" method="GET">           
+            <div class="col-6 float-left">
+                <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value);"class="form-control float-left" name="coaches">
+                    <option value=""> Selecteer een coach </option>
                     @foreach($coachDatas as $coachData)
                         <option value="{{ $coachData->coach->id }}">
                             {{ $coachData->voornaam }} {{ $coachData->tussenvoegsel }} {{ $coachData->achternaam }}
@@ -30,42 +35,35 @@
                         @php {{unset($coachData);}} @endphp
                     @endforeach
                 </select>
-                &nbsp;
-                <button type="submit" class="btn btn-info float-left">Selecteren</button>
+            </div>
+            <div class="col-2 float-left">
+                <button id="formSubmit" onclick="this.form.submit()" class="btn btn-outline-success text-center hidden"><i class="far fa-check-circle"></i></button>
             </div>
             {{ csrf_field() }}
         </form>
     </div>
 </div>
+
 @endif
 @endisset
 @isset($coach) 
 @isset($coachData) 
 
 <div class="row">
-    <div class="col-8 float-left">   
-        <h5>Gegevens van: {{ $coachData['voornaam'] }} {{ $coachData['tussenvoegsel'] }} {{ $coachData['achternaam'] }}</h5>
-    </div>
-    <div class="col-2 float-left">
-        <button id="formSubmit" onclick="document.form.submit()" type="submit" class="btn btn-block btn-info hidden" >Doorvoeren</button>
-    </div>
-    <div class="col-2 float-left">
-        <div class="form-check">
-            <label class="form-check-label" for="deleteCheck">
-               <input id="deleteCheck" name="deleteCheck" class="form-check-input" type="checkbox">
-                Verwijderen? 
-           </label>
+    <div class="col-12">
+        <div class="col-10 float-left">   
+            <h5>Gegevens van: {{ $coachData['voornaam'] }} {{ $coachData['tussenvoegsel'] }} {{ $coachData['achternaam'] }}</h5>
         </div>
-        <button id="deleteBtn" type="submit" hidden class="btn btn-block btn-danger" >Verwijderen</button>
+        <div id="formSubmit" class="col-2 float-left hidden">
+            <button id="formSubmit" onclick="document.form.submit()" class="btn btn-outline-success btn-block text-center"><i class="far fa-check-circle"></i></button>
+        </div>
+        
     </div>
-    <form name="deleteForm" action="{{ URL::to("coach/$coach->id/verwijderen") }}" method="POST">
-        {{ csrf_field() }}
-    </form>
 </div>
 <br>
 <div class="row">
     <div class="col-12">
-        <form id="form" name="form" class="" action="{{ URL::to("/coach/$coach->id/aanpassen") }}" method="POST">
+        <form id="form" name="form" action="{{ URL::to("/coach/$coach->id/aanpassen") }}" method="POST">
             <br>
             <div class="row">
                 <div class="col-6">
@@ -98,6 +96,24 @@
             </div>
             {{ csrf_field() }}
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="col-2 offset-10 float-left">
+            <br>
+            <br>
+            <div class="form-check">
+                <label class="form-check-label" for="deleteCheck">
+                   <input id="deleteCheck" name="deleteCheck" class="form-check-input" type="checkbox">
+                    Verwijderen? 
+               </label>
+            </div>
+            <form name="deleteForm" action="{{ URL::to("coach/$coach->id/verwijderen") }}" method="POST">
+                <button id="deleteBtn" onclick="deleteConfirm(event, 'de gegevens van {{ $coach->coach }}');" hidden class="btn btn-block btn-outline-danger text-center" ><i class="far fa-times-circle"></i></button>
+                {{ csrf_field() }}
+            </form>
+        </div>
     </div>
 </div>
 

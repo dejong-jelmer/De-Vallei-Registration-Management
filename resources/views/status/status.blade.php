@@ -9,12 +9,12 @@
 <div class="row">
     <div class="col-12">
         <div class="col-1 float-left"></div>
-        <div class="col-2 text-left float-left"><h6><b><u>status</u></b></h6></div>
-        <div class="col-2 text-center float-left"><h6><b><u>selecteerbaar voor leerlingen</u></b></h6></div>
-        <div class="col-2 text-center float-left"><h6><b><u>selecteerbaar voor coaches</u></b></h6></div>
-        <div class="col-1 text-center float-left"><h6><b><u>reden nodig</u></b></h6></div>
-        <div class="col-3 text-center float-left"><h6><b><u>tekst</u></b></h6></div>
-        <div class="col-1 text-left float-left"><h6><b><u>kleur</u></b></h6></div>
+        <div class="col-2 text-left float-left"><h6><b>status</b></h6></div>
+        <div class="col-2 text-left float-left"><h6><b>selecteerbaar voor leerlingen</b></h6></div>
+        <div class="col-2 text-left float-left"><h6><b>selecteerbaar voor coaches</b></h6></div>
+        <div class="col-1 text-left float-left"><h6><b>reden nodig</b></h6></div>
+        <div class="col-3 text-left float-left"><h6><b>tekst</b></h6></div>
+        <div class="col-1 text-left float-left"><h6><b>kleur</b></h6></div>
     </div>
 </div>
 @foreach($statuses as $status)
@@ -22,8 +22,8 @@
         <div class="col-12">
                 
             <form name="form" action="{{ URL::to("/status/aanpassen/$status->id") }}" method="POST">
-                 <div class="col-1 text-left float-left">
-                    <button class="btn btn-sm btn-outline-danger text-center" onclick="this.value = 1; this.form.submit();" name="delete"><i class="far fa-times-circle"></i></button>
+                 <div class="col-1 text-center float-left">
+                    <button class="btn btn-sm btn-outline-danger text-center" onclick="this.value = 1; deleteConfirm(event, 'status');" name="delete"><i class="far fa-times-circle"></i></button>
                 </div>
                 <div class="col-2 text-left float-left">
                     {{ $status->status }}
@@ -43,11 +43,7 @@
                 </div>
 
                 <div class="col-1 text-center float-left">
-                    <select name="color" class="form-control form-control-sm colorSelect" onchange="this.form.submit()" style="background: {{ $status->color }}">
-                        @foreach($statuses as $color)
-                            <option value="{{ $color->color }}" @if($status->color == $color->color) selected @endif style="background: {{ $color->color }}"></option>
-                        @endforeach
-                    </select>
+                    <div class="form-control form-control-sm" style="background: {{ $status->color }}"></div>
                 </div>
                 {{ csrf_field() }}
             </form>
@@ -65,7 +61,7 @@
 <div class="row">
     <div class="col-12">
         <form name="form" action="{{ URL::to('/status/aanmaken') }}" method="POST">
-            <div class="col-1 text-left float-left">
+            <div class="col-1 text-center float-left">
                 <button class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
             </div>
             <div class="col-2 text-left float-left">

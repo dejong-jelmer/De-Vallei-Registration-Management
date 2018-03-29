@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'Web\HomeController@getHome');
 
+    Route::get('/account', 'Web\AccountController@getAccount');
+
     Route::get('/status', 'Web\StatusController@getStatus');
     Route::post('/status/aanmaken', 'Web\StatusController@createStatus');
     Route::post('/status/aanpassen/{id}', 'Web\StatusController@updateStatus');

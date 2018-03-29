@@ -11,8 +11,9 @@
     <div class="col-12">
         <div class="col-2 offset-1 text-left float-left"><h6><b>alle leerlingen</b></h6></div>
         <div class="col-3 text-left float-left"><h6><b>status</b></h6></div>
-        <div class="col-3 text-left float-left"><h6><b>reden (optioneel)</b></h6></div>
-        <div class="col-2 text-left float-left"><h6><b>wijzigen</b></h6></div>
+        <div class="col-3 text-left float-left"><h6><b>reden invoer (optioneel)</b></h6></div>
+        <div class="col-1 text-left float-left"><h6><b>wijzigen</b></h6></div>
+        <div class="col-2 text-left float-left"><h6><b>reden</b></h6></div>
     </div>
 </div>
 
@@ -37,7 +38,6 @@
             <div class="col-3 text-center float-left">
                 <input name="reden" type="text" class="form-control form-control-sm">
             </div>
-
 
             <div class="col-2 text-left float-left">
                 <button type="submit" class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
@@ -77,8 +77,11 @@
             <div class="col-3 text-center float-left status-reason hidden">
                 <input name="reden" type="text" class="form-control form-control-sm">
             </div>
-             <div class="col-2 text-left float-left status-submit hidden">
+             <div class="col-1 text-left float-left status-submit hidden">
                 <button type="submit" class="btn btn-sm btn-outline-success text-center"><i class="far fa-check-circle"></i></button>
+            </div>
+            <div class="col-2 text-left float-left">
+                {{ $student->reason['reason'] }}
             </div>
             {{ csrf_field() }}
         </form>

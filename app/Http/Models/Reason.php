@@ -38,6 +38,11 @@ class Reason extends Model
     {
         return $this->belongsTo('App\Models\Student');
     }
+
+    public function coach()
+    {
+        return $this->belongsTo('App\Models\Coach');
+    }
     
     // Model methods ----------------------------------------------------------
     

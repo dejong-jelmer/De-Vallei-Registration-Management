@@ -51,7 +51,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="col-8 float-left">   
+        <div class="col-10 float-left">   
             <h5>Gegevens van: {{ $studentData['voornaam'] }} {{ $studentData['tussenvoegsel'] }} {{ $studentData['achternaam'] }}</h5>
         </div>
         <div id="formSubmit" class="col-2 float-left hidden">

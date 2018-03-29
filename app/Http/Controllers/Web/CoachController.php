@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use Auth;
 use App\Models\Coach;
 use App\Models\Status;
+use App\Models\Reason;
 use App\Models\Coachdata;
 use App\Http\Models\Color;
 use Illuminate\Http\Request;
@@ -133,8 +134,12 @@ class CoachController extends Controller
         return redirect('/home')->with(['success' => "Coach $name verwijderd"]);
     }
 
-    public function updateStatus($coachId, $statusId)
+    public function updateStatus($coachId, $statusId, Request $request)
     {
+
+        $reason = false;
+        // als reden tekst gegeven is
+        $reasonText = $request->input('reden') ?  : $reasonText = false;
 
         try {
 
@@ -155,10 +160,30 @@ class CoachController extends Controller
             
         }
 
-        $coach->status()->associate($status);
-        $coach->save();
+        // als leerling niet al die status heeft
+        if ($coach->status_id !== $status->id) {
+            // als er een reden tekst is maak reden aan
+            if (false !== $reasonText) {
+                $reason = new Reason(['reason' => $reasonText, 'coach_id' => $coach->id, 'status_id' => $status->id]);
+            }
 
+        
+            // als er een reden aangemaakt is associeer met coach en status, anders dissocieer vorig reden van coas=ch
+            if($reason) {
+                $reason->coach()->associate($coach);
+                $reason->status()->associate($status);
+                $reason->save();
 
+                $coach->reason()->associate($reason);
+                $coach->save();
+            } else {
+                $coach->reason()->dissociate();
+            }
+
+            $coach->status()->associate($status);
+            $coach->save();
+
+        }   
         return redirect()->action('Web\CoachController@getStatus')->with(['success' => "Status van $coach->coach aangepast"]);
     }
 

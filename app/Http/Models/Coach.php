@@ -56,6 +56,10 @@ class Coach extends Model
         return $this->belongsTo('App\Http\Models\Color', 'color_id');
     }
 
+    public function reason()
+    {
+        return $this->belongsTo('App\Models\Reason', 'reason_id');
+    }
 
 
     // Model methods

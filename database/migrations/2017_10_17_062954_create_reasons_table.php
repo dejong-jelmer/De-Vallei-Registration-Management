@@ -15,7 +15,8 @@ class CreateReasonsTable extends Migration
     {
         Schema::create('reasons', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id');
+            $table->integer('student_id')->nullable();
+            $table->integer('coach_id')->nullable();
             $table->integer('status_id');
             $table->text('reason')->nullable();
             $table->boolean('deleted')->nullable()->default('0');

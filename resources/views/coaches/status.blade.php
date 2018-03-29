@@ -2,57 +2,101 @@
 
 @section('content')
 
-@isset($coaches)
-@isset($statuses)
-
 @include('templates.partials.coach')
 
+
+@isset($coaches)
+@isset($statuses)
 <div class="row">
-    @foreach($coaches as $coach)
-        <form name="form" class="col-6" action='{{ URL::to("/coach/$coach->id/status") }}' method="POST">
-            <input type="checkbox" class="idCheckbox form-check-input float-left form-checkbox" value="{{ $coach->id }}">
-            <div class="form-group">
-            <div id="statuses">
-                <label for="status" class="col-3 float-left">{{ $coach->coach }}:</label>
-                <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value); setBtnClassHidden(); this.nextElementSibling.classList.remove('hidden')" id="statusSelect" class="col-4 form-control form-control-sm float-left" name="status">
-                        
+    <div class="col-12">
+        <div class="col-2 offset-1 text-left float-left"><h6><b>alle coaches</b></h6></div>
+        <div class="col-3 text-left float-left"><h6><b>status</b></h6></div>
+        <div class="col-3 text-left float-left"><h6><b>reden invoer (optioneel)</b></h6></div>
+        <div class="col-1 text-left float-left"><h6><b>wijzigen</b></h6></div>
+        <div class="col-2 text-left float-left"><h6><b>reden</b></h6></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form id="submitMultipleForm" action="{{ URL::to('/coaches/statuses') }}" method="POST">
+            <div class="col-2 offset-1 text-center float-left">
+                <div class="col-2 text-left">
+                    <input id="selectALlIds" name="selectCheckboxes" class="form-check-input" type="checkbox" @if(old('selectCheckboxes')) checked @endif>
+                </div>
+            </div>
+
+            <div class="col-3 text-center float-left">
+                <select class="form-control form-control-sm" name="status">
+                    <option selected> -- Kies een status -- </option>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status->id }}">{{ $status->status }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-3 text-center float-left">
+                <input name="reden" type="text" class="form-control form-control-sm">
+            </div>
+
+
+            <div class="col-2 text-left float-left">
+                <button type="submit" class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
+            </div>
+            <input type="hidden" name="coach" id="submitIds">
+            {{ csrf_field() }}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <br>
+        <div class="col-2 offset-1 text-left float-left"><h6><b>per coach</b></h6></div>
+        <br>
+    </div>
+</div>
+@foreach($coaches as $coach)
+
+<div class="row">
+    <div class="col-12">
+        <form name="form" action='{{ URL::to("/coach/$coach->id/status") }}' method="POST">
+            <div class="col-2 offset-1 float-left">
+                <div class="col-2 text-left">
+                    <input type="checkbox" class="idCheckbox form-check-input form-checkbox" value="{{ $coach->id }}">
+                </div>
+                <div class="col-8 offset-2 text-left">
+                    {{ $coach->coach }}
+                </div>
+            </div>
+            <div class="col-3 text-center float-left">
+                <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value); addClassToElementByClassName({'class': 'hidden', 'classnames':['status-reason', 'status-submit']}); this.parentElement.nextElementSibling.classList.remove('hidden'); this.parentElement.nextElementSibling.nextElementSibling.classList.remove('hidden');" id="statusSelect" class="form-control form-control-sm" name="status">
                         @foreach($statuses as $status)
                             <option @if($coach->status->id == $status->id) selected @endif value="{{ $status->id }}">{{ $status->status }}</option>
                         @endforeach
                 </select>
-                <button type="submit" class="col-3 offset-1 hidden btn btn-success btn-sm float-left coachStatusSubmit">Status wijzigen</button>
             </div>
+            <div class="col-3 text-center float-left status-reason hidden">
+                <input name="reden" type="text" class="form-control form-control-sm">
+            </div>
+             <div class="col-1 text-left float-left status-submit hidden">
+                <button type="submit" class="btn btn-sm btn-outline-success text-center"><i class="far fa-check-circle"></i></button>
+            </div>
+            <div class="col-2 text-left float-left">
+                {{ $coach->reason['reason'] }}
             </div>
             {{ csrf_field() }}
         </form>
-        <br>
-    @endforeach 
+    </div>
 </div>
+
+
+@endforeach
+
+
 <br>
 <br>
-<div class="row">
-        
-    <form id="submitMultipleForm" class="form-inline" action="{{ URL::to('/coaches/statuses') }}" method="POST">
-        <div class="form-group">
-            <label class="form-check-label" for="selectCheckboxes">
-                <input id="selectALlIds" name="selectCheckboxes" class="form-check-input" type="checkbox" @if(old('selectCheckboxes')) checked @endif> Selecteer alle coaches
-           </label>
-            &nbsp;
-            <select class="form-control form-control-sm float-left" name="status">
-                <option selected> -- Kies een status -- </option>
-                @foreach($statuses as $status)
-                    <option value="{{ $status->id }}">{{ $status->status }}</option>
-                @endforeach
-            </select>
-            &nbsp;
-            <button type="submit" class="btn btn-success float-left">Status wijzigen</button>
-        </div>
-        <input type="hidden" name="coach" id="submitIds">
-        {{ csrf_field() }}
-    </form>
-</div>
-<script>
-</script>
+
+
 <script>
     var selectALlIds = document.querySelector('#selectALlIds');
     var idCheckbox = document.getElementsByClassName('idCheckbox');
@@ -76,6 +120,9 @@
             } 
         }
     });
+
+
+
 </script>
 
 @endisset

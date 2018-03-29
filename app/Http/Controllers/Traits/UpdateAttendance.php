@@ -35,7 +35,7 @@ trait UpdateAttendance {
         }
         
             // als leerling niet al die status heeft
-            if ($student->status_id !== $statusId) {
+            if ($student->status_id !== $status->id) {
                 // als er een reden tekst is maak reden aan
                 if (false !== $reasonText) {
                     $reason = new Reason(['reason' => $reasonText, 'student_id' => $student->id, 'status_id' => $status->id]);

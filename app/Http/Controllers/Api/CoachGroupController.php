@@ -26,7 +26,7 @@ class CoachGroupController extends controller
      */
     public function getCoachGroups()
     {
-        $coaches = Coach::with('status')->get();
+        $coaches = Coach::with('status', 'reason')->get();
 
         return response()->json([ 'coaches' => $coaches ]);
 

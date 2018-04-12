@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/logout', 'Web\AuthController@logout');
 
-    Route::get('/home', 'Web\HomeController@getHome');
+    Route::get('/home', 'Web\DashboardController@getDashboard');
 
     Route::get('/account', 'Web\AccountController@getAccount');
 

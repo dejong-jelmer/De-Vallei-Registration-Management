@@ -5,6 +5,8 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>De Vallei</title>
     
     {{-- pulling in Bootstrap 4 CSS --}}
@@ -22,9 +24,10 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
 
     {{-- pulling in custom JS --}}
-    <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script> --}}
 
-    
+    {{-- pulling in Axios --}}
+    {{-- <script src="js/axios/axios.js"></script>     --}}
 
 </head>
 <body>
@@ -47,7 +50,12 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/all.js') }}"></script>
+
+    @yield('javascript')
+
     {{-- pulling in Vue.JS 2.5.13 --}}
     {{-- <script src="{{ asset('js/vue/vue.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/vue/main.js') }}"></script> --}}
 </body>
 </html>

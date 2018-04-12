@@ -21,6 +21,10 @@ Route::group(['prefix' => '/v1'], function(){
     Route::get('/statuses', 'Api\StatusController@getStatusen');
     Route::get('/kleuren', 'Api\ColorController@getColors');
     
+
+    Route::get('dashboard/diagram', 'Api\DashboardController@getDiagramInput')->name('dashboard.diagram');
+    Route::get('dashboard/statuses', 'Api\DashboardController@getStatuses')->name('dashboard.statuses');
+
     // JWT Auth middleware protected
     Route::group(['middleware' => ['jwt-auth']], function(){
         

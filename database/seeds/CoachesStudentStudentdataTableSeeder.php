@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\Coach;
-use App\Http\Models\Color;
+use App\Models\Color;
 use Illuminate\Database\Seeder;
 
 class CoachesStudentStudentdataTableSeeder extends Seeder
@@ -38,7 +38,7 @@ class CoachesStudentStudentdataTableSeeder extends Seeder
             ]);
         }
 
-        $colors = App\Http\Models\Color::get();
+        $colors = App\Models\Color::get();
         $coaches = Coach::get();
 
         foreach ($coaches as $coach) {

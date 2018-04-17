@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function getDashboard()
     {
         
-        $statuses = Status::get();
+        $statuses = Status::with('students')->get();
 
         return view('home')->with(compact('statuses'));
     }

@@ -79,7 +79,7 @@ class Student extends Model
 
     public function color()
     {
-        return $this->belongsTo('App\Http\Models\Color', 'color_id');
+        return $this->belongsTo('App\Models\Color', 'color_id');
     }
     
     // Model methods ----------------------------------------------------------

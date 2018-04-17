@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use Auth;
 use App\Models\Coach;
+use App\Models\Color;
 use App\Models\Status;
 use App\Models\Reason;
 use App\Models\Coachdata;
-use App\Http\Models\Color;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;

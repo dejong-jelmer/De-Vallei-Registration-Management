@@ -21,7 +21,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', 'Web\DashboardController@getDashboard');
 
-    Route::get('/account', 'Web\AccountController@getAccount');
+    Route::get('/account', 'Web\AccountController@show');
+    Route::post('/account/aanmaken', 'Web\AccountController@create')->name('account.create');
+    Route::post('/account/versturen/{id}', 'Web\AccountController@sendAccountDetails')->name('account.send');
+
 
     Route::get('/status', 'Web\StatusController@getStatus');
     Route::post('/status/aanmaken', 'Web\StatusController@createStatus');

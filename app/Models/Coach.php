@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Coach;
+use App\Models\Color;
 use App\Models\Status;
 use App\Models\Student;
 use App\Models\Coachdata;
-use App\Http\Models\Color;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -53,7 +53,7 @@ class Coach extends Model
 
     public function color()
     {
-        return $this->belongsTo('App\Http\Models\Color', 'color_id');
+        return $this->belongsTo('App\Models\Color', 'color_id');
     }
 
     public function reason()

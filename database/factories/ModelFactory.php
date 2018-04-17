@@ -39,7 +39,7 @@ $factory->define(Coachdata::class, function (Faker\Generator $faker) {
 
 $factory->define(Student::class, function (Faker\Generator $faker) {
     
-    $namen = ['Kim', 'Peter', 'Jolien', 'Danielle', 'Felix', 'Daan', 'Daan', 'Levy', 'Selma', 'Danny', 'Noah', 'Shara', 'Jullia', 'Henk', 'Lucas', 'Fin', 'Emma', 'Tess', 'Sofie', 'Milan', 'Jesse', 'Liam', 'Mees', 'Noud', 'Adam', 'James', 'Max', 'Anna', 'Zoë', 'Fleur', 'Lauren', 'Yara', 'Marleen', 'Bram', 'Nora', 'Feline', 'Elise'];
+    $namen = ['Kim', 'Peter', 'Jolien', 'Danielle', 'Felix', 'Daan', 'Daan', 'Levy', 'Selma', 'Danny', 'Noah', 'Shara', 'Julia', 'Henk', 'Lucas', 'Fin', 'Emma', 'Tess', 'Sofie', 'Milan', 'Jesse', 'Liam', 'Mees', 'Noud', 'Adam', 'James', 'Max', 'Anna', 'Zoë', 'Fleur', 'Lauren', 'Yara', 'Marleen', 'Bram', 'Nora', 'Feline', 'Elise'];
     $naam = $namen[random_int(0,count($namen)-1)];
 
     return [

@@ -32,7 +32,7 @@ Route::group(['prefix' => '/v1'], function(){
         
         // user routes
         Route::get('/gebruikers/overzicht', 'Api\UserController@getUsers');
-        Route::post('/gebruikers/aanmaken', 'Api\UserController@createUser');
+        Route::post('/gebruikers/aanmaken', 'Api\UserController@create');
         
         //coach routes
         Route::get('/coaches/overzicht', 'Api\CoachController@getCoaches');

@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Coach;
@@ -17,13 +17,23 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class UserController
 {
 
+    /**
+     * GET /users
+     * @return  \Symfony\Component\HttpFoundation\Response
+     */
+    public function getUsers()
+    {
+        $users = User::get();
+
+        return response()->json(['gebruikers' => $users], 200);
+    }
  
     /**
      * POST /users
-     * @param  Request $request [description]
+     * @param  Request $request 
      * @return  \Symfony\Component\HttpFoundation\Response
      */
-    public function createUser(Request $request)
+    public function create(Request $request)
     {
         
         try {
@@ -48,12 +58,6 @@ class UserController
         
     }
 
-    public function getUsers()
-    {
-        $users = User::get();
-
-        return response()->json(['gebruikers' => $users], 200);
-    }
 
 
 

@@ -17,7 +17,21 @@
                     @endforeach
                 @endisset
             </div>
+            <div class="col-10 offset-2 text-center float-left" style="margin-top: 5%">
+                @foreach($statuses as $status)
+                    <div class="col-6 float-left">
+                        <b>{{ $status->status }}</b>
+                        <hr>
+                        {{-- @foreach($status->students as $student)
+                        
+                        <small>{{ $student->naam }}</small>
+                        @endforeach --}}
+                        
+                    </div>
+                @endforeach
+            </div>
         </div>
+
         <div class="col-5 offset-1 float-right">
             <h5>Actuele statussen</h5>
             <div v-if="statuses">
@@ -28,7 +42,7 @@
                         <td>
                             <table class="table-sm">
                                 <tr>
-                                    <td><small>Status: <b>@{{ status.status.text }}</b></small><small v-if="status.reason">->@{{ status.reason.reason  }}</small></td>
+                                    <td><small>Status: <b>@{{ status.status.status }}</b></small><small v-if="status.reason">->@{{ status.reason.reason  }}</small></td>
                                 </tr>
                                 <tr>
                                     <td><small>Tijd: @{{ status.status.updated_at }}</small></td>

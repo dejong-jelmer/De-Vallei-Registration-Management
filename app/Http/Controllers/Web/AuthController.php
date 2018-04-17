@@ -22,7 +22,6 @@ class AuthController extends Controller
         try {
 
 
-            // $user = Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'] ]);
             $user = Auth::attempt($credentials);
 
         } catch(Exception $exception) {

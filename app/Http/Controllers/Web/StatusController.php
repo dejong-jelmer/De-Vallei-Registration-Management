@@ -14,15 +14,42 @@ class StatusController extends Controller
 {
     use UpdateAttendance;
 
-    public function getStatus()
+    public function index()
     {
         $statuses = Status::whereNotIn('status',['afwezig', 'aanwezig'])->get();
 
 
-        return view('status.status')->with(['statuses' => $statuses]);
+        return view('status.index')->with(['statuses' => $statuses]);
     }
 
-    public function updateStatus($id, Request $request)
+    public function create(Status $status, Request $request)
+    {
+        try {
+            
+            $status->create([
+                'status' => $request->input('status'),
+                'student_selectable' => $request->input('student_selectable') === 'on' ? $request['student_selectable'] = true : $request['student_selectable'] = false,
+
+                'coach_selectable' => $request->input('coach_selectable') === 'on' ? $request['coach_selectable'] = true : $request['coach_selectable'] = false,
+
+                'reason_requierd' => $request->input('reason_requierd') === 'on' ? $request['reason_requierd'] = true : $request['reason_requierd'] = false,
+
+                'text' => $request->input('text') ?  : $request->input('status'),
+                'color' => $request->input('color')
+
+
+            ]);
+            
+        } catch (Exception $e) {
+            return back()->with(['error' => 'aanmaken nieuwe status mislukt']);
+        }
+
+        return back()->with(['success' => 'nieuwe status aangemaakt']);
+
+
+    }
+
+    public function update($id, Request $request)
     {
         $request->validate([
             'delete' => 'boolean',
@@ -75,30 +102,4 @@ class StatusController extends Controller
         return back()->with(['success' => 'Status aangepast']);
     }
 
-    public function createStatus(Status $status, Request $request)
-    {
-        try {
-            
-            $status->create([
-                'status' => $request->input('status'),
-                'student_selectable' => $request->input('student_selectable') === 'on' ? $request['student_selectable'] = true : $request['student_selectable'] = false,
-
-                'coach_selectable' => $request->input('coach_selectable') === 'on' ? $request['coach_selectable'] = true : $request['coach_selectable'] = false,
-
-                'reason_requierd' => $request->input('reason_requierd') === 'on' ? $request['reason_requierd'] = true : $request['reason_requierd'] = false,
-
-                'text' => $request->input('text') ?  : $request->input('status'),
-                'color' => $request->input('color')
-
-
-            ]);
-            
-        } catch (Exception $e) {
-            return back()->with(['error' => 'aanmaken nieuwe status mislukt']);
-        }
-
-        return back()->with(['success' => 'nieuwe status aangemaakt']);
-
-
-    }
 }

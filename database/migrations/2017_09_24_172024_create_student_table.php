@@ -16,10 +16,10 @@ class CreateStudentTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
             $table->string('naam');
-            $table->integer('coach_id')->nullable();
+            $table->integer('coach_id')->default('1')->nullable();
             $table->integer('status_id')->default('1');
             $table->integer('reason_id')->nullable();
-            $table->integer('color_id')->nullable();
+            $table->integer('color_id')->default('1')->nullable();
             $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();

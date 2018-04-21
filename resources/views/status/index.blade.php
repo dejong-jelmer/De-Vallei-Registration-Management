@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-12">
                 
-            <form name="form" action="{{ URL::to("/status/aanpassen/$status->id") }}" method="POST">
+            <form name="form" action="{{ Route('status.update', ['id' => $status->id]) }}" method="POST">
                  <div class="col-1 text-center float-left">
                     <button class="btn btn-sm btn-outline-danger text-center" onclick="this.value = 1; deleteConfirm(event, 'status');" name="delete"><i class="far fa-times-circle"></i></button>
                 </div>
@@ -60,7 +60,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <form name="form" action="{{ URL::to('/status/aanmaken') }}" method="POST">
+        <form name="form" action="{{ Route('status.create') }}" method="POST">
             <div class="col-1 text-center float-left">
                 <button class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
             </div>

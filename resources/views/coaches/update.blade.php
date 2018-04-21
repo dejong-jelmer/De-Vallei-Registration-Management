@@ -24,7 +24,7 @@
 </div>
 <div class="row">
     <div class="col-12">    
-        <form id="form" name="form" action="{{ URL::to('/coach') }}" method="GET">           
+        <form id="form" name="form" action="{{ Route('coaches.show', ['id' => '']) }}" method="GET">           
             <div class="col-6 float-left">
                 <select onchange="this.form.action = setSubmitIdToUrl(this.form.action, this.value);"class="form-control float-left" name="coaches">
                     <option value=""> Selecteer een coach </option>
@@ -37,7 +37,7 @@
                 </select>
             </div>
             <div class="col-2 float-left">
-                <button id="formSubmit" onclick="this.form.submit()" class="btn btn-outline-success text-center hidden"><i class="far fa-check-circle"></i></button>
+                <button id="formSubmit" onclick="this.form.submit()" class="btn btn-outline-success text-center hidden"><i class="fa fa-check-circle"></i></button>
             </div>
             {{ csrf_field() }}
         </form>
@@ -55,7 +55,7 @@
             <h5>Gegevens van: {{ $coachData['voornaam'] }} {{ $coachData['tussenvoegsel'] }} {{ $coachData['achternaam'] }}</h5>
         </div>
         <div id="formSubmit" class="col-2 float-left hidden">
-            <button id="formSubmit" onclick="document.form.submit()" class="btn btn-outline-success btn-block text-center"><i class="far fa-check-circle"></i></button>
+            <button id="formSubmit" onclick="document.form.submit()" class="btn btn-outline-success btn-block text-center"><i class="fa fa-check-circle"></i></button>
         </div>
         
     </div>
@@ -63,7 +63,7 @@
 <br>
 <div class="row">
     <div class="col-12">
-        <form id="form" name="form" action="{{ URL::to("/coach/$coach->id/aanpassen") }}" method="POST">
+        <form id="form" name="form" action="{{ Route('coaches.update', ['id' => $coach->id]) }}" method="POST">
             <br>
             <div class="row">
                 <div class="col-6">
@@ -109,8 +109,8 @@
                     Verwijderen? 
                </label>
             </div>
-            <form name="deleteForm" action="{{ URL::to("coach/$coach->id/verwijderen") }}" method="POST">
-                <button id="deleteBtn" onclick="deleteConfirm(event, 'de gegevens van {{ $coach->coach }}');" hidden class="btn btn-block btn-outline-danger text-center" ><i class="far fa-times-circle"></i></button>
+            <form name="deleteForm" action="{{ Route('coaches.destroy', ['id' => $coach->id]) }}" method="POST">
+                <button id="deleteBtn" onclick="deleteConfirm(event, 'de gegevens van {{ $coach->coach }}');" hidden class="btn btn-block btn-outline-danger text-center" ><i class="fa fa-times-circle"></i></button>
                 {{ csrf_field() }}
             </form>
         </div>

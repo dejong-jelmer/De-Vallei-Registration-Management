@@ -1,37 +1,49 @@
-<nav class="navbar navbar-expand-sm bg-light navbar-light nav-side">
+<nav class="navbar-expand-sm bg-light navbar-light nav-side">
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="nav flex-column nav-ul-side" style="width: 100%; height: 800px;">
+        <ul id="side-nav" class="nav flex-column nav-ul-side">
             <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="{{ URL::to('/') }}">Dashboard</a>
+                <a class="nav-link" href="{{ Route('dashboard') }}">Dashboard</a>
             </li>
             <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="{{ URL::to('/aanwezigheid') }}">Aanwezigheid</a>
+                <a class="nav-link" href="{{ Route('aanwezigheid.index') }}">Aanwezigheid</a>
             </li>
             <li class="nav-item nav-side-btn dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Leerlingen</a>
+                <a class="nav-link dropdown-toggle">Leerlingen</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ URL::to('/leerlingen/gegevens') }}">Gegevens zoeken/bewerken</a>
-                    <a class="dropdown-item" href="{{ URL::to('/leerlingen/aanmaken') }}">Gegevens aanmaken</a>
-                    <a class="dropdown-item" href="{{ URL::to('/leerlingen/status') }}">Status wijzigen</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.index.update') }}">Gegevens zoeken/bewerken</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.index.create') }}">Gegevens aanmaken</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.status') }}">Status wijzigen</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.import') }}">Importeren</a>
                 </div>
             </li>
             <li class="nav-item nav-side-btn dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown">Coaches</a>
+                <a class="nav-link dropdown-toggle">Coaches</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ URL::to('/coaches/gegevens') }}">Gegevens zoeken/bewerken</a>
-                    <a class="dropdown-item" href="{{ URL::to('/coaches/aanmaken') }}">Gegevens aanmaken</a>
-                    <a class="dropdown-item" href="{{ URL::to('/coaches/status') }}">Status wijzigen</a>
+                    <a class="dropdown-item" href="{{ Route('coaches.index.create') }}">Gegevens zoeken/bewerken</a>
+                    <a class="dropdown-item" href="{{ Route('coaches.index.update') }}">Gegevens aanmaken</a>
+                    <a class="dropdown-item" href="{{ Route('coaches.status') }}">Status wijzigen</a>
                 </div>
             </li>
             <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="{{ URL::to('/status') }}">Status</a>
+                <a class="nav-link" href="{{ Route('status') }}">Status</a>
             </li>
             <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="{{ URL::to('/account') }}">Account</a>
+                <a class="nav-link" href="{{ Route('account') }}">Account</a>
             </li>
             <li class="nav-item nav-side-btn">
-                <a class="nav-link" href="{{ URL::to('/logout') }}"><i class="fas fa-power-off"></i>&nbsp;Uitloggen</a>
+                <a class="nav-link" href="{{ Route('logout') }}"><i class="fa fa-power-off"></i>&nbsp;Uitloggen</a>
             </li>
         </ul>
     </div>
 </nav>
+<script>
+    
+    var body = document.body,
+    html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+    document.getElementById('side-nav').height = height;
+</script>
+

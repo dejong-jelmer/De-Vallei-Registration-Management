@@ -15,21 +15,22 @@ use Illuminate\Support\Facades\Schema;
 class CoachController extends Controller
 {
     
-    public function getUpdate()
-    {   
-        $coachDatas = CoachData::with('coach')->get();
-
-        return view('coaches.gegevens')->with(['coachDatas' => $coachDatas]);
-    }
-
-    public function getCreate()
+    public function indexCreate()
     {   
         $colors = Color::get();
 
         $columns = Schema::getColumnListing('coachdatas');
         
-        return view('coaches.aanmaken')->with(['columns' => $columns, 'colors' => $colors]);
+        return view('coaches.create')->with(['columns' => $columns, 'colors' => $colors]);
     }
+
+    public function indexUpdate()
+    {   
+        $coachDatas = CoachData::with('coach')->get();
+
+        return view('coaches.update')->with(['coachDatas' => $coachDatas]);
+    }
+
 
     public function getStatus()
     {
@@ -41,7 +42,7 @@ class CoachController extends Controller
         return view('coaches.status')->with(['coaches' => $coaches, 'statuses' => $statuses]);
     }
 
-    public function getCoach($id)
+    public function show($id)
     {
         
         try {
@@ -56,10 +57,10 @@ class CoachController extends Controller
 
         $coachData = collect($coach->coachData);
 
-        return view('coaches.gegevens')->with(['coach' => $coach, 'coachData' => $coachData, 'colors' => $colors ]);
+        return view('coaches.update')->with(['coach' => $coach, 'coachData' => $coachData, 'colors' => $colors ]);
     }
 
-    public function createCoach(Request $request)
+    public function create(Request $request)
     {
         
         $request->validate([
@@ -86,11 +87,11 @@ class CoachController extends Controller
             
         }
 
-        return redirect()->action('Web\CoachController@getCoach', ['id' => $coach->id])->with(['success' => 'Coach aangemaakt']); 
+        return redirect()->route('coaches.show', ['id' => $coach->id])->with(['success' => 'Coach aangemaakt']); 
     }
 
 
-    public function updateCoach($id, Request $request)
+    public function update($id, Request $request)
     {
         try {
             
@@ -107,10 +108,10 @@ class CoachController extends Controller
         $coach->coachData()->first()->update($request->all());
         $coach->save();
 
-        return redirect()->action('Web\CoachController@getCoach', ['id' => $coach->id])->with(['success' => 'Coachgegevens aangepast']);
+        return redirect()->route('coaches.show', ['id' => $coach->id])->with(['success' => 'Coachgegevens aangepast']);
     }
 
-    public function deleteCoach($id)
+    public function destroy($id)
     {
         try {
             
@@ -131,7 +132,7 @@ class CoachController extends Controller
         $coach->delete();
         $coach->save();
 
-        return redirect('/home')->with(['success' => "Coach $name verwijderd"]);
+        return redirect()->route('dashboard')->with(['success' => "Coach $name verwijderd"]);
     }
 
     public function updateStatus($coachId, $statusId, Request $request)

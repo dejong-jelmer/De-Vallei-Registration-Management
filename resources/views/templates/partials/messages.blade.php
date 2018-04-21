@@ -1,5 +1,4 @@
 
-<div class="container" >
     <div class="{{ Auth::user() ? 'col-10 offset-1' : 'col-4 offset-4' }}">
         @if (session('info') || isset($info))
             <div class="col-11 alert alert-light alert-dismissible text-info message">
@@ -78,4 +77,3 @@
                
         @endif
     </div>
-</div>

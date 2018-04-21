@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 
 class AttendanceController extends Controller
 {
-    public function getIndex()
+    public function index()
     {
         
         $students = Student::has('attendances')->get();

@@ -1,5 +1,6 @@
 const ids = [];
 
+
 // Wait untill DOM is loaded
 document.addEventListener('DOMContentLoaded', function (event){
     
@@ -96,7 +97,57 @@ document.addEventListener('DOMContentLoaded', function (event){
         }
     }
 
+    if(document.querySelector('.dropdown-toggle')) {
+
+        var dropdown = document.getElementsByClassName('dropdown-toggle');
+
+        for (var i = 0; i < dropdown.length; i++) {
+          dropdown[i].addEventListener('click', function() {
+            this.classList.toggle('active');
+            
+            var dropdownContent = this.nextElementSibling;
+            
+            if (dropdownContent.style.display === 'block') {
+
+              dropdownContent.style.display = 'none';
+            
+            } else {
+
+              dropdownContent.style.display = 'block';
+            
+            }
+          });
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+           
+
+          if (!event.target.matches('.dropdown-toggle')) {
+
+            var dropdownmenus = document.getElementsByClassName("dropdown-menu");
+            var dropdowns = document.getElementsByClassName("dropdown-item");
+
+            for (var i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              
+              if (openDropdown.style.display == 'block') {
+                openDropdown.style.display = 'none';
+              }
+            }
+
+            for (var i = 0; i < dropdownmenus.length; i++) {
+              var openDropdownMenu = dropdownmenus[i];
+              
+              if (openDropdownMenu.style.display == 'block') {
+                openDropdownMenu.style.display = 'none';
+              }
+            }
+          }
+        }
+    }
 });
+
 
 function deleteConfirm(e,toBeDeleted)
 {
@@ -119,7 +170,7 @@ function setIds(e)
         }
 
     }
-    console.log(ids);
+
     return ids
 }
 
@@ -195,12 +246,12 @@ function removeClassFromElementByClassName(obj) {
 }
 
 function openDiagram(uri) {
-    console.log('(re)loading diagram:');
+    // console.log('(re)loading diagram:');
     axios.get(
             uri, 
         ).then(
             function(response) {
-            console.log('%c  success', 'color:green')
+            // console.log('%c  success', 'color:green')
                 
                loadStatusDiagram(response.data);
             }

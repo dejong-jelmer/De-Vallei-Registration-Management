@@ -19,7 +19,7 @@
 
 <div class="row">
     <div class="col-12">
-        <form id="submitMultipleForm" action="{{ URL::to('/coaches/statuses') }}" method="POST">
+        <form id="submitMultipleForm" action="{{ Route('coaches.statuses.update') }}" method="POST">
             <div class="col-2 offset-1 text-center float-left">
                 <div class="col-2 text-left">
                     <input id="selectALlIds" name="selectCheckboxes" class="form-check-input" type="checkbox" @if(old('selectCheckboxes')) checked @endif>
@@ -41,7 +41,7 @@
 
 
             <div class="col-2 text-left float-left">
-                <button type="submit" class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
+                <button type="submit" class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="fa fa-check-circle"></i></button>
             </div>
             <input type="hidden" name="coach" id="submitIds">
             {{ csrf_field() }}
@@ -59,7 +59,7 @@
 
 <div class="row">
     <div class="col-12">
-        <form name="form" action='{{ URL::to("/coach/$coach->id/status") }}' method="POST">
+        <form name="form" action='{{ Route('coaches.status.update', ['coachId' => $coach->id, 'statusId' => '']) }}' method="POST">
             <div class="col-2 offset-1 float-left">
                 <div class="col-2 text-left">
                     <input type="checkbox" class="idCheckbox form-check-input form-checkbox" value="{{ $coach->id }}">
@@ -79,7 +79,7 @@
                 <input name="reden" type="text" class="form-control form-control-sm">
             </div>
              <div class="col-1 text-left float-left status-submit hidden">
-                <button type="submit" class="btn btn-sm btn-outline-success text-center"><i class="far fa-check-circle"></i></button>
+                <button type="submit" class="btn btn-sm btn-outline-success text-center"><i class="fa fa-check-circle"></i></button>
             </div>
             <div class="col-2 text-left float-left">
                 {{ $coach->reason['reason'] }}

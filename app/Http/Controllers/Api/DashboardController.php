@@ -25,7 +25,7 @@ class DashboardController extends Controller
 
     public function getStatuses()
     {
-        $students = Student::with('status', 'reason')->orderBy('updated_at', 'desc')->take(20)->get();
+        $students = Student::with('status', 'reason')->orderBy('updated_at', 'desc')->take(10)->get();
 
         return response()->json($students);
     }

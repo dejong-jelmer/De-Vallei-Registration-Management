@@ -31,6 +31,7 @@ class CreateStudentdatasTable extends Migration
             $table->string("email")->nullable();
             $table->string("ouder_verzorger_1")->nullable();
             $table->string("ouder_verzorger_2")->nullable();
+            $table->string("oud_jong")->nullable();
             $table->string("voogd")->nullable();
             $table->boolean('deleted')->nullable()->default('0');
             $table->softDeletes();

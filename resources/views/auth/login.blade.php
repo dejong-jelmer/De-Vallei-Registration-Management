@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="col-sm-4 col-8 offset-2 offset-sm-4" style="margin-top: 15%;">
-    <form action="{{ URL::to('/login') }}" method="POST">
+    <form action="{{ Route('login.user') }}" method="POST">
         <div class="form-group">
             <input name="email" class="form-control" type="email" placeholder="Email">
         </div>

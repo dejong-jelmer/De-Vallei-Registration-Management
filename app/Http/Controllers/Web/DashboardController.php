@@ -9,11 +9,11 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public function getDashboard()
+    public function index()
     {
         
         $statuses = Status::with('students')->get();
 
-        return view('home')->with(compact('statuses'));
+        return view('dashboard')->with(compact('statuses'));
     }
 }

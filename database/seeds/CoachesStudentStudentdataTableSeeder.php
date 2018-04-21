@@ -18,17 +18,19 @@ class CoachesStudentStudentdataTableSeeder extends Seeder
         
 
         $coaches = [
-            'Hans' ,
-            'Maria' ,
-            'Michel' ,
-            'Judith' ,
-            'Freek' ,
-            'Johan' ,
+            'Roh/Linda' ,
+            'Reinoeka' ,
+            'Esther' ,
+            'Katrin' ,
+            'Feike' ,
+            'Jolien' ,
+            'Esther' ,
             'Chantal' ,
-            'Antoinette' ,
-            'Jaap' 
+            'Bastiaan',
+            'Ankie' 
 
         ];
+
 
         foreach ($coaches as $coach) {
             DB::Table('coaches')->insert([

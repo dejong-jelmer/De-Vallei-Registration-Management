@@ -19,25 +19,26 @@ class StudentController extends Controller
     use UpdateAttendance;
     
        
-    public function getUpdate()
-    {   
-
-        $studentDatas = StudentData::with('student')->get();
-
-        return view('leerlingen.gegevens')->with(['studentDatas' => $studentDatas]);
-    }
-
-    public function getCreate()
+    public function indexCreate()
     {   
         $colors = Color::get();
         $coaches = Coach::get();
 
         $columns = Schema::getColumnListing('studentdatas');
         
-        return view('leerlingen.aanmaken')->with(['columns' => $columns, 'coaches' => $coaches, 'colors' => $colors]);
+        return view('leerlingen.create')->with(['columns' => $columns, 'coaches' => $coaches, 'colors' => $colors]);
     }
 
-    public function searchStudents(Request $request)
+    public function indexUpdate()
+    {   
+
+        $studentDatas = StudentData::with('student')->get();
+
+        return view('leerlingen.update')->with(['studentDatas' => $studentDatas]);
+    }
+
+
+    public function search(Request $request)
     {
         $query = $request->input('zoeken');
 
@@ -50,7 +51,7 @@ class StudentController extends Controller
                     ->get();
 
 
-        return view('leerlingen.gegevens')->with(['studentDatas' => $studentDatas]);
+        return view('leerlingen.update')->with(['studentDatas' => $studentDatas]);
 
     }
 
@@ -63,7 +64,7 @@ class StudentController extends Controller
         return view('leerlingen.status')->with(['students' => $students, 'statuses' => $statuses]);
     }
 
-    public function getStudent($id)
+    public function show($id)
     {
         
         try {
@@ -80,35 +81,11 @@ class StudentController extends Controller
         $studentData = collect($student->studentData);
         $student->coach;
 
-        return view('leerlingen.gegevens')->with(['student' => $student, 'studentData' => $studentData, 'coaches' => $coaches, 'colors' => $colors ]);
+        return view('leerlingen.update')->with(['student' => $student, 'studentData' => $studentData, 'coaches' => $coaches, 'colors' => $colors ]);
 
     }
-
-    public function updateStudent($id, Request $request)
-    {
-        
-        
-        try {
-            
-            $student = Student::findOrFail($id);
-
-        } catch (ModelNotFoundException $e) {
-            return redirect()->back()->with(['error' => 'Leerling niet gevonden']);
-        }
-
-        $coach = Coach::findOrFail($request->input('coach_id'));
-        $color = Color::findOrFail($request->input('color_id'));
-
-        $student->coach()->associate($coach);
-        $student->color()->associate($color);
-        $student->naam = $request->input('voornaam');
-        $student->studentData()->first()->update($request->all());
-        $student->save();
-
-        return redirect()->action('Web\StudentController@getStudent', ['id' => $student->id])->with(['success' => 'Leerlinggegevens aangepast']);
-    }
-
-    public function createStudent(Request $request)
+    
+    public function create(Request $request)
     {
          $request->validate([
             'voornaam' => 'required',
@@ -137,11 +114,36 @@ class StudentController extends Controller
             
         }
 
-        return redirect()->action('Web\StudentController@getStudent', ['id' => $student->id])->with(['success' => 'Leerlinggegevens aangemaakt']);
+        return redirect()->route('leerlingen.show', ['id' => $student->id])->with(['success' => 'Leerlinggegevens aangemaakt']);
         
     }
 
-    public function deleteStudent($id)
+    public function update($id, Request $request)
+    {
+        
+        
+        try {
+            
+            $student = Student::findOrFail($id);
+
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with(['error' => 'Leerling niet gevonden']);
+        }
+
+        $coach = Coach::findOrFail($request->input('coach_id'));
+        $color = Color::findOrFail($request->input('color_id'));
+
+        $student->coach()->associate($coach);
+        $student->color()->associate($color);
+        $student->naam = $request->input('voornaam');
+        $student->studentData()->first()->update($request->all());
+        $student->save();
+
+        return redirect()->route('leerlingen.show', ['id' => $student->id])->with(['success' => 'Leerlinggegevens aangepast']);
+    }
+
+
+    public function destroy($id)
     {
         try {
             
@@ -162,7 +164,7 @@ class StudentController extends Controller
         $student->delete();
         $student->save();
 
-        return redirect('/home')->with(['success' => "Leerling $name verwijderd"]);
+        return redirect()->route('dashboard')->with(['success' => "Leerling $name verwijderd"]);
     }
 
     public function updateStatus($studentId, $statusId, Request $request) 
@@ -177,7 +179,7 @@ class StudentController extends Controller
         }
         
 
-        return redirect()->action('Web\StudentController@getStatus')->with(['success' => "Status van $student->naam aangepast"]);
+        return redirect()->route('leerlingen.status')->with(['success' => "Status van $student->naam aangepast"]);
     }
 
     public function updateStatuses(Request $request)
@@ -204,7 +206,7 @@ class StudentController extends Controller
         
         }
         
-        return redirect()->action('Web\StudentController@getStatus')->with(['success' => 'Status van leerlingen aangepast']);
+        return redirect()->route('leerlingen.status')->with(['success' => 'Status van leerlingen aangepast']);
         
     }
 }

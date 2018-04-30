@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function (event){
 
         for (var i = 0; i < dropdown.length; i++) {
           dropdown[i].addEventListener('click', function() {
+
             this.classList.toggle('active');
             
             var dropdownContent = this.nextElementSibling;
@@ -123,28 +124,29 @@ document.addEventListener('DOMContentLoaded', function (event){
         window.onclick = function(event) {
            
 
-          if (!event.target.matches('.dropdown-toggle')) {
+            if (!event.target.matches('.dropdown-toggle')) {
 
-            var dropdownmenus = document.getElementsByClassName("dropdown-menu");
-            var dropdowns = document.getElementsByClassName("dropdown-item");
+                var dropdownmenus = document.getElementsByClassName("dropdown-menu");
+                var dropdowns = document.getElementsByClassName("dropdown-item");
 
-            for (var i = 0; i < dropdowns.length; i++) {
-              var openDropdown = dropdowns[i];
-              
-              if (openDropdown.style.display == 'block') {
-                openDropdown.style.display = 'none';
-              }
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                  
+                    if (openDropdown.style.display == 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+
+                for (var i = 0; i < dropdownmenus.length; i++) {
+                    var openDropdownMenu = dropdownmenus[i];
+                  
+                    if (openDropdownMenu.style.display == 'block') {
+                        openDropdownMenu.style.display = 'none';
+                    }
+                }
             }
-
-            for (var i = 0; i < dropdownmenus.length; i++) {
-              var openDropdownMenu = dropdownmenus[i];
-              
-              if (openDropdownMenu.style.display == 'block') {
-                openDropdownMenu.style.display = 'none';
-              }
-            }
-          }
         }
+    
     }
 });
 
@@ -171,7 +173,7 @@ function setIds(e)
 
     }
 
-    return ids
+    return ids;
 }
 
 // add id to submit url

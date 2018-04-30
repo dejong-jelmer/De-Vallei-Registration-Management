@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('leerlingen/importeren', 'Web\ImportController@index')
         ->name('leerlingen.import');
 
-    Route::post('leerlingen/importeren/uploaden', 'Web\ImportController@importExcel')
+    Route::post('leerlingen/lijsten/uploaden', 'Web\ImportController@import')
         ->name('leerlingen.import.upload');
 
 

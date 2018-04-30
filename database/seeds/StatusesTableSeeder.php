@@ -17,21 +17,21 @@ class StatusesTableSeeder extends Seeder
                 'student_selectable' => 1, 
                 'coach_selectable' => 1, 
                 'text' => 'Afmelden', 
-                'color' => '#FF0000',
+                'color' => '#bb3d49',
                 'reason_requierd'=> 0,
             ],
             'aanwezig' => [
                 'student_selectable' => 0, 
                 'coach_selectable' => 1, 
                 'text' => 'Aanmelden',
-                'color' => '#A8CD1B',
+                'color' => '#61e786',
                 'reason_requierd'=> 0,
             ],
             'tussendoor uit' => [
                 'student_selectable' => 1,
                 'coach_selectable' => 0, 
                 'text' => 'Tussendoor uit',
-                'color' =>'#FFA200',
+                'color' =>'#db4547',
                 'reason_requierd'=> 1,
             ],
             'activiteit' => [
@@ -45,7 +45,7 @@ class StatusesTableSeeder extends Seeder
                 'student_selectable' => 1, 
                 'coach_selectable' => 0, 
                 'text' => 'BSO',
-                'color' => '#0087CB',
+                'color' => '#61c0bf',
                 'reason_requierd'=> 0,
             ],
             'ziek' => [
@@ -59,7 +59,7 @@ class StatusesTableSeeder extends Seeder
                 'student_selectable' => 1,
                 'coach_selectable' => 1, 
                 'text' => 'Ziek naar huis',
-                'color' => '#EB65A0',
+                'color' => '#da507a',
                 'reason_requierd'=> 1,
             ],
             'bijzonder verlof' => [

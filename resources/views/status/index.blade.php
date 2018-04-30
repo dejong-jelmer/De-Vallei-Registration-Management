@@ -23,7 +23,7 @@
                 
             <form name="form" action="{{ Route('status.update', ['id' => $status->id]) }}" method="POST">
                  <div class="col-1 text-center float-left">
-                    <button class="btn btn-sm btn-outline-danger text-center" onclick="this.value = 1; deleteConfirm(event, 'status');" name="delete"><i class="far fa-times-circle"></i></button>
+                    <button class="btn btn-sm btn-outline-danger text-center" onclick="this.value = 1; deleteConfirm(event, 'status');" name="delete"><i class="fa fa-times-circle"></i></button>
                 </div>
                 <div class="col-2 text-left float-left">
                     {{ $status->status }}
@@ -39,7 +39,7 @@
                     <input onclick="this.form.submit()" name="reason_requierd" class="form-check-input form-checkbox" type="checkbox" @if($status->reason_requierd) checked @endif>
                 </div>
                 <div class="col-3 text-left float-left">
-                    <input name="text" type="text" class="col-9 form-control form-control-sm float-left" value="{{ $status->text }}" onkeyup="this.nextElementSibling.classList.remove('hidden');"><button class="col-3 btn btn-sm btn-outline-success text-center float-left hidden" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
+                    <input name="text" type="text" class="col-9 form-control form-control-sm float-left" value="{{ $status->text }}" onkeyup="this.nextElementSibling.classList.remove('hidden');"><button class="col-3 btn btn-sm btn-outline-success text-center float-left hidden" onclick="this.form.submit();"><i class="fa fa-check-circle"></i></button>
                 </div>
 
                 <div class="col-1 text-center float-left">
@@ -62,7 +62,7 @@
     <div class="col-12">
         <form name="form" action="{{ Route('status.create') }}" method="POST">
             <div class="col-1 text-center float-left">
-                <button class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="far fa-check-circle"></i></button>
+                <button class="btn btn-sm btn-outline-success text-center" onclick="this.form.submit();"><i class="fa fa-check-circle"></i></button>
             </div>
             <div class="col-2 text-left float-left">
                 <input name="status" type="text" class="form-control form-control-sm">

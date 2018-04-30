@@ -10,17 +10,17 @@
             <li class="nav-item nav-side-btn dropdown">
                 <a class="nav-link dropdown-toggle">Leerlingen</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ Route('leerlingen.index.update') }}">Gegevens zoeken/bewerken</a>
-                    <a class="dropdown-item" href="{{ Route('leerlingen.index.create') }}">Gegevens aanmaken</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.index.update') }}">Zoeken/bewerken</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.index.create') }}">Aanmaken</a>
                     <a class="dropdown-item" href="{{ Route('leerlingen.status') }}">Status wijzigen</a>
-                    <a class="dropdown-item" href="{{ Route('leerlingen.import') }}">Importeren</a>
+                    <a class="dropdown-item" href="{{ Route('leerlingen.import') }}">Lijsten</a>
                 </div>
             </li>
             <li class="nav-item nav-side-btn dropdown">
                 <a class="nav-link dropdown-toggle">Coaches</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ Route('coaches.index.create') }}">Gegevens zoeken/bewerken</a>
-                    <a class="dropdown-item" href="{{ Route('coaches.index.update') }}">Gegevens aanmaken</a>
+                    <a class="dropdown-item" href="{{ Route('coaches.index.create') }}">Zoeken/bewerken</a>
+                    <a class="dropdown-item" href="{{ Route('coaches.index.update') }}">Aanmaken</a>
                     <a class="dropdown-item" href="{{ Route('coaches.status') }}">Status wijzigen</a>
                 </div>
             </li>

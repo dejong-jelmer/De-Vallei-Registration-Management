@@ -19,10 +19,12 @@
                 <div class="col-12 col-sm-6 float-left">
                     <a class="nav-link dropdown-toggle">{{ $status->status }}</a>
                     <div class="dropdown-menu">
-                        @foreach($status->students as $student)
+                        @forelse($status->students as $student)
                     
                             <a class="dropdown-item">{{ $student->naam }}</a>
-                        @endforeach
+                        @empty
+                            <a class="dropdown-item">Niemand</a>
+                        @endforelse
                     </div>                        
                     
                 </div>

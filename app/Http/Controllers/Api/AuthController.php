@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use JWTAuth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+
+        Auth::attempt($credentials);
+        if(Auth::user()->is_app) {
+            if($request->ip() != '192.168.0.1') {
+                die('Geen toegang');
+            }
+        }
+        
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {

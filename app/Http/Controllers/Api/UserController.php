@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Coach;
@@ -41,7 +41,7 @@ class UserController
                 'naam' => $request->input('naam'), 
                 'email' => $request->input('email'), 
                 'password' => Hash::make($request->input('password')), 
-                'api_token' => str_random(60)
+                // 'api_token' => str_random(60)
             ]);
 
             return response()->json(['created' => true, 'gebruiker' => $user], 201);

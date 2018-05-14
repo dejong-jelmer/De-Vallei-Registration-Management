@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => '/v1'], function(){   
-
+     Route::post('/create', 'Api\UserController@create');
     // login
     Route::post('/login', 'Api\AuthController@login');
     // status

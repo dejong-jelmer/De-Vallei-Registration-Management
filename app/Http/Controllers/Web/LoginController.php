@@ -20,7 +20,11 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if(Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            if(!Auth::user()->is_app) {
+                return redirect()->intended('/dashboard');
+            } else {
+                Auth::logout();
+            }
         }
 
         return back()->with('error', 'Je bent niet ingelogd');

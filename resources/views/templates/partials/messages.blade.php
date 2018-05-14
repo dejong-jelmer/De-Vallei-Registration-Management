@@ -1,7 +1,7 @@
 
     <div class="{{ Auth::user() ? 'col-10 offset-1' : 'col-4 offset-4' }}">
         @if (session('info') || isset($info))
-            <div class="col-11 alert alert-light alert-dismissible text-info message">
+            <div class="col-11 alert alert-dismissible text-info message">
                 @if(session('info'))
                     @if(!is_array(session('info'))) 
                         {{ session('info') }} 
@@ -27,7 +27,7 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
         @elseif (session('success') || isset($success))
-            <div class="col-11 alert alert-light alert-dismissible text-success message">
+            <div class="col-11 alert alert-dismissible text-success message">
                 @if(session('success'))
                     @if(!is_array(session('success'))) 
                         {{ session('success') }} 
@@ -53,7 +53,7 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             </div>
         @elseif (session('error') || $errors->any())
-            <div class="col-11 alert alert-light alert-dismissible text-danger message">
+            <div class="col-11 alert alert-dismissible text-danger message">
                 <h6><u>Er ging iets mis:</u></h6>
                 @if(session('error'))
                     <ul>
